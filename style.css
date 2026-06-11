@@ -1,0 +1,176 @@
+/* ----------------------------------------------------
+   ROBUCCA COFFEE SHOP — Custom Design System Stylesheet
+   Malang, Indonesia
+   ---------------------------------------------------- */
+
+/* Reset & Smooth Scroll */
+html {
+  scroll-behavior: smooth;
+  background-color: rgba(15, 34, 24, 0.95); /* Default to rbc-cream */
+  color: #F5EDD6; /* Default to rbc-cream-light */
+}
+
+/* Custom Selection Style */
+::selection {
+  background-color: #CC2200; /* rbc-red */
+  color: rgba(15, 34, 24, 0.95); /* rbc-cream */
+}
+
+/* Custom Scrollbar for modern browsers */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(15, 34, 24, 0.95); /* rbc-green-d */
+}
+::-webkit-scrollbar-thumb {
+  background: #1C3A2A; /* rbc-green */
+  border: 1px solid #8C8880; /* rbc-concrete */
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #CC2200; /* rbc-red */
+}
+
+/* ---------------------------------------------
+   BRUTALIST STRUCTURE & TEXTURE RULES
+   --------------------------------------------- */
+
+/* Concrete texture overlay — apply via class .texture-concrete */
+.texture-concrete {
+  position: relative;
+}
+.texture-concrete::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* All content inside texture-concrete needs z-index: 2 */
+.texture-concrete > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Custom utility class for dot leader in menu list */
+.menu-dot-leader {
+  flex-grow: 1;
+  border-bottom: 2px dotted currentColor;
+  margin: 0 12px;
+  position: relative;
+  top: -4px;
+  opacity: 0.4;
+}
+
+/* Subtle grayscale filter for Maps Embed */
+.map-grayscale iframe {
+  filter: grayscale(80%) contrast(1.1) invert(0.05);
+  transition: filter 0.5s ease;
+}
+.map-grayscale:hover iframe {
+  filter: grayscale(30%) contrast(1.0);
+}
+
+/* Active navigation item underliner */
+.nav-link {
+  position: relative;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #CC2200; /* rbc-red */
+  transition: width 0.3s ease;
+}
+.nav-link.active::after {
+  width: 100%;
+}
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* Custom interactive button behaviors */
+.btn-brutalist {
+  position: relative;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-brutalist:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0px 0px #CC2200; /* offset red shadow */
+}
+.btn-brutalist:active {
+  transform: translate(0px, 0px);
+  box-shadow: 0px 0px 0px 0px #CC2200;
+}
+
+/* Heavy Brutalist Outline Cards */
+.card-brutalist {
+  border: 1px solid #F5EDD6;
+  transition: all 0.3s ease;
+}
+.card-brutalist:hover {
+  box-shadow: 6px 6px 0px 0px #F5EDD6;
+  transform: translate(-3px, -3px);
+}
+
+.card-brutalist-red:hover {
+  box-shadow: 6px 6px 0px 0px #CC2200;
+  transform: translate(-3px, -3px);
+}
+
+/* Animations for Mobile Navigation Overlay */
+[x-cloak] {
+  display: none !important;
+}
+
+.mobile-menu-enter {
+  opacity: 0;
+  transform: scale(0.95);
+}
+.mobile-menu-enter-active {
+  transition: all 0.3s ease-out;
+}
+.mobile-menu-leave-active {
+  transition: all 0.2s ease-in;
+}
+.mobile-menu-leave-to {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+/* Fallback Header & Link Colors (For Offline/Blocked CDN Environments) */
+#navbar {
+  background-color: #1C3A2A; /* Fallback rbc-green */
+}
+#navbar.bg-rbc-green-d\/95 {
+  background-color: rgba(15, 34, 24, 0.95) !important;
+}
+#navbar a {
+  color: #F5EDD6; /* Fallback rbc-cream */
+}
+#navbar a.active {
+  border-bottom: 2px solid #CC2200; /* Fallback rbc-red underline */
+}
+#navbar a:hover {
+  color: #E0D4BB; /* Fallback rbc-cream-d */
+}
+#navbar button span {
+  background-color: #F5EDD6; /* Fallback hamburger lines color */
+}
+
+/* Fallback Hero Text Colors (For Offline/Blocked CDN Environments) */
+.hero-content h1 {
+  color: #F5EDD6 !important;
+}
+.hero-content p {
+  color: rgba(245, 237, 214, 0.85) !important;
+}
+.hero-content .text-rbc-red {
+  color: #CC2200 !important;
+}

@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="id" class="h-full scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Robucca — Rough Spaces, Warm Moments</title>
+  <meta name="description" content="Kopi susu signature, menu ramen, bento dan spot nongkrong brutalist-modern terbaik di Malang. Rough Spaces, Warm Moments.">
+
+  <!-- Shared CSS Link -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Tailwind CSS & Brand Configuration -->
+  <script>
+    window.tailwind = {
+      config: {
+        theme: {
+          extend: {
+            colors: {
+              'rbc-green':   '#1C3A2A',
+              'rbc-green-d': '#0F2218',
+              'rbc-green-l': '#2A5040',
+              'rbc-cream':   'rgba(15, 34, 24, 0.95)',
+              'rbc-cream-light': '#F5EDD6',
+              'rbc-cream-d': '#E0D4BB',
+              'rbc-red':     '#CC2200',
+              'rbc-brown':   '#2C1A0E',
+              'rbc-concrete':'#8C8880',
+              'rbc-black':   '#0A0A0A',
+            },
+            fontFamily: {
+              'display': ['"Bebas Neue"', 'sans-serif'],
+              'mono':    ['"DM Mono"', 'monospace'],
+              'serif':   ['"Fraunces"', 'serif'],
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&display=swap" rel="stylesheet">
+
+  <!-- Alpine.js -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <!-- AOS (Animate on Scroll) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+</head>
+<body class="bg-rbc-cream text-rbc-cream-light font-mono overflow-x-hidden selection:bg-rbc-red selection:text-rbc-cream-light" x-data="mobileNav">
+
+  <!-- 1. NAVBAR -->
+  <nav id="navbar" class="fixed top-0 left-0 w-full h-16 bg-rbc-green border-b border-rbc-cream-light/15 z-50 transition-all duration-300 flex items-center justify-between px-6 md:px-12">
+    <!-- Left: Wordmark -->
+    <a href="index.html" class="flex items-baseline space-x-1 group">
+      <span class="font-serif italic font-black text-2xl md:text-3xl text-rbc-cream-light tracking-tight transition-transform duration-300 group-hover:scale-105">Robucca</span>
+      <span class="font-mono text-[9px] uppercase tracking-widest text-rbc-concrete">by Rbc.</span>
+    </a>
+
+    <!-- Center: Desktop Menu -->
+    <div class="hidden md:flex items-center space-x-8">
+      <a href="index.html" class="nav-link active font-mono text-xs uppercase tracking-widest text-rbc-cream-light hover:text-rbc-cream-light-d py-2">HOME</a>
+      <a href="menu.html" class="nav-link font-mono text-xs uppercase tracking-widest text-rbc-cream-light hover:text-rbc-cream-light-d py-2">MENU</a>
+      <a href="about.html" class="nav-link font-mono text-xs uppercase tracking-widest text-rbc-cream-light hover:text-rbc-cream-light-d py-2">TENTANG</a>
+      <a href="contact.html" class="nav-link font-mono text-xs uppercase tracking-widest text-rbc-cream-light hover:text-rbc-cream-light-d py-2">KONTAK</a>
+    </div>
+
+    <!-- Right: Desktop WA CTA & Hamburger -->
+    <div class="flex items-center space-x-4">
+      <a href="https://instagram.com/robucca.id" target="_blank" class="hidden sm:inline-block border border-rbc-cream-light px-4 py-2 font-mono text-[11px] uppercase tracking-widest text-rbc-cream-light hover:bg-rbc-red hover:border-rbc-red transition-all duration-300 rounded-none">
+        ORDER NOW
+      </a>
+      
+      <!-- Mobile Hamburger Button -->
+      <button @click="toggle()" class="md:hidden flex flex-col justify-between w-6 h-4 group focus:outline-none" aria-label="Toggle Menu">
+        <span class="w-full h-0.5 bg-rbc-cream transition-transform duration-300" :class="isOpen ? 'rotate-45 translate-y-[7px]' : ''"></span>
+        <span class="w-full h-0.5 bg-rbc-cream transition-opacity duration-300" :class="isOpen ? 'opacity-0' : ''"></span>
+        <span class="w-full h-0.5 bg-rbc-cream transition-transform duration-300" :class="isOpen ? '-rotate-45 -translate-y-[7px]' : ''"></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu Drawer (Overlay) -->
+  <div x-show="isOpen" 
+       x-cloak 
+       x-transition:enter="transition ease-out duration-300"
+       x-transition:enter-start="opacity-0 translate-y-4"
+       x-transition:enter-end="opacity-100 translate-y-0"
+       x-transition:leave="transition ease-in duration-200"
+       x-transition:leave-start="opacity-100 translate-y-0"
+       x-transition:leave-end="opacity-0 translate-y-4"
+       class="fixed inset-0 bg-rbc-green-d text-rbc-cream-light z-40 flex flex-col justify-between p-8 pt-24 texture-concrete">
+    
+    <!-- Top-level absolute grid lines for brutalist styling -->
+    <div class="absolute inset-0 border-r border-l border-rbc-cream-light/5 pointer-events-none mx-8"></div>
+    
+    <!-- Stacked Links -->
+    <div class="flex flex-col space-y-6 relative z-10">
+      <div class="font-mono text-xs text-rbc-red tracking-widest uppercase mb-2">NAVIGASI</div>
+      <a href="index.html" @click="close()" class="font-display text-5xl uppercase tracking-wider hover:text-rbc-red transition-colors active-link-highlight">HOME</a>
+      <a href="menu.html" @click="close()" class="font-display text-5xl uppercase tracking-wider hover:text-rbc-red transition-colors">MENU</a>
+      <a href="about.html" @click="close()" class="font-display text-5xl uppercase tracking-wider hover:text-rbc-red transition-colors">TENTANG</a>
+      <a href="contact.html" @click="close()" class="font-display text-5xl uppercase tracking-wider hover:text-rbc-red transition-colors">KONTAK</a>
+    </div>
+
+    <!-- Bottom Footer info in Drawer -->
+    <div class="relative z-10 flex flex-col space-y-4 border-t border-rbc-cream-light/10 pt-6">
+      <div>
+        <p class="font-serif italic text-lg text-rbc-cream-light">"Rough Spaces, Warm Moments"</p>
+        <p class="text-[10px] font-mono uppercase text-rbc-concrete tracking-widest mt-1">Part of Rbc Group</p>
+      </div>
+      <div class="flex justify-between items-center text-xs">
+        <a href="https://instagram.com/robucca.id" target="_blank" class="hover:text-rbc-red transition-colors">@robucca.id</a>
+        <a href="https://wa.me/6287741848928" target="_blank" class="text-rbc-red font-bold hover:underline">WA: 0877-4184-8928</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. HERO SECTION -->
+  <header x-data="heroCarousel" class="relative min-h-screen bg-rbc-green-d text-rbc-cream-light flex flex-col justify-between pt-16 overflow-hidden texture-concrete" @mouseenter="stopAutoPlay()" @mouseleave="startAutoPlay()">
+    
+    <!-- Background Carousel Slides (Full Screen Absolute Overlay) -->
+    <div class="absolute inset-0 w-full h-full z-0">
+      <!-- Slide 1: Essentials -->
+      <div x-show="activeSlide === 0" 
+           x-transition:enter="transition duration-700 ease-out absolute" 
+           x-transition:enter-start="opacity-0 scale-105" 
+           x-transition:enter-end="opacity-100 scale-100" 
+           x-transition:leave="transition duration-500 ease-in absolute" 
+           x-transition:leave-start="opacity-100 scale-100" 
+           x-transition:leave-end="opacity-0 scale-95" 
+           class="absolute inset-0 w-full h-full bg-[#130d0a] flex items-center justify-center">
+        <img src="img/carousel-essentials.webp" alt="Robucca Essentials" class="w-full h-full object-cover brightness-[0.45]">
+      </div>
+
+      <!-- Slide 2: Desserts -->
+      <div x-show="activeSlide === 1" 
+           x-transition:enter="transition duration-700 ease-out absolute" 
+           x-transition:enter-start="opacity-0 scale-105" 
+           x-transition:enter-end="opacity-100 scale-100" 
+           x-transition:leave="transition duration-500 ease-in absolute" 
+           x-transition:leave-start="opacity-100 scale-100" 
+           x-transition:leave-end="opacity-0 scale-95" 
+           class="absolute inset-0 w-full h-full bg-[#f5edd6] flex items-center justify-center" 
+           x-cloak>
+        <img src="img/carousel-desserts.webp" alt="Robucca Desserts" class="w-full h-full object-cover brightness-[0.45]">
+      </div>
+
+      <!-- Slide 3: Breakfasts -->
+      <div x-show="activeSlide === 2" 
+           x-transition:enter="transition duration-700 ease-out absolute" 
+           x-transition:enter-start="opacity-0 scale-105" 
+           x-transition:enter-end="opacity-100 scale-100" 
+           x-transition:leave="transition duration-500 ease-in absolute" 
+           x-transition:leave-start="opacity-100 scale-100" 
+           x-transition:leave-end="opacity-0 scale-95" 
+           class="absolute inset-0 w-full h-full bg-[#f5edd6] flex items-center justify-center" 
+           x-cloak>
+        <img src="img/carousel-breakfasts.webp" alt="Robucca Breakfasts & Salads" class="w-full h-full object-cover brightness-[0.45]">
+      </div>
+
+      <!-- Elegant Dark Green Gradient Mask overlay (Solid dark green on the left, fading to transparent on the right) -->
+      <div class="absolute inset-0 bg-gradient-to-r from-rbc-green-d via-rbc-green-d/95 lg:from-rbc-green-d lg:via-rbc-green-d/90 lg:to-transparent z-10"></div>
+    </div>
+
+    <!-- Hero Content (Floating over background z-20) -->
+    <div class="relative z-20 flex-grow grid grid-cols-1 lg:grid-cols-12 items-center">
+      <!-- Left Column: Title & CTA (Stands out against dark gradient) -->
+      <div class="lg:col-span-7 flex flex-col justify-center px-6 md:px-12 py-12 lg:py-0 hero-content">
+        <div data-aos="fade-right" data-aos-delay="100">
+          <div class="font-mono text-xs uppercase tracking-widest text-rbc-red mb-3">ROBUCCA COFFEE SHOP</div>
+          <h1 class="font-display text-[65px] sm:text-[90px] md:text-[120px] lg:text-[110px] xl:text-[130px] leading-[0.9] uppercase tracking-tight text-rbc-cream-light mb-6">
+            BUKAN<br>SEKADAR<br>KOPI.
+          </h1>
+          <p class="font-serif italic text-lg sm:text-2xl text-rbc-cream-light/85 max-w-lg mb-8 leading-relaxed">
+            "Ruang yang berbicara, kopi yang menemani."
+          </p>
+          <div class="flex flex-wrap gap-4">
+            <a href="menu.html" class="btn-brutalist bg-rbc-red border border-rbc-red text-rbc-cream-light px-8 py-4 font-mono text-xs uppercase tracking-widest font-bold rounded-none">
+              LIHAT MENU
+            </a>
+            <a href="contact.html" class="btn-brutalist border border-rbc-cream-light text-rbc-cream-light px-8 py-4 font-mono text-xs uppercase tracking-widest hover:bg-rbc-red hover:border-rbc-red transition-colors rounded-none">
+              TEMUKAN KAMI
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Right Column: Empty spacer to let the right side of images show clearly -->
+      <div class="hidden lg:block lg:col-span-5"></div>
+    </div>
+
+    <!-- Bottom Controls & Scroll down indicator -->
+    <div class="relative z-20 h-20 border-t border-rbc-cream-light/15 flex items-center justify-between px-6 md:px-12 backdrop-blur-[2px] bg-rbc-green-d/30">
+      <!-- Carousel Dots -->
+      <div class="flex space-x-3">
+        <button @click="setSlide(0)" class="w-3 h-3 border border-rbc-cream-light transition-colors" :class="activeSlide === 0 ? 'bg-rbc-red border-rbc-red' : 'bg-transparent'"></button>
+        <button @click="setSlide(1)" class="w-3 h-3 border border-rbc-cream-light transition-colors" :class="activeSlide === 1 ? 'bg-rbc-red border-rbc-red' : 'bg-transparent'"></button>
+        <button @click="setSlide(2)" class="w-3 h-3 border border-rbc-cream-light transition-colors" :class="activeSlide === 2 ? 'bg-rbc-red border-rbc-red' : 'bg-transparent'"></button>
+      </div>
+
+      <!-- Scroll indicator -->
+      <a href="#spotlight" class="flex items-center space-x-2 animate-bounce cursor-pointer group">
+        <span class="font-mono text-[10px] tracking-widest uppercase text-rbc-cream-light/60 group-hover:text-rbc-red transition-colors">SCROLL</span>
+        <svg class="w-4 h-4 text-rbc-cream-light/60 group-hover:text-rbc-red transition-colors" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
+      </a>
+
+      <!-- Arrow Controls -->
+      <div class="flex space-x-4">
+        <button @click="prev()" class="hover:text-rbc-red text-rbc-cream-light transition-colors" aria-label="Previous Slide">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
+        </button>
+        <button @click="next()" class="hover:text-rbc-red text-rbc-cream-light transition-colors" aria-label="Next Slide">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 3. SPOTLIGHT SECTION -->
+  <section id="spotlight" class="py-24 md:py-32 px-6 md:px-12 bg-rbc-cream border-t border-b border-rbc-cream-light relative">
+    <div class="max-w-7xl mx-auto">
+      
+      <!-- Headers -->
+      <div class="mb-16 text-center md:text-left" data-target-aos="fade-up">
+        <div class="font-mono text-xs uppercase tracking-widest text-rbc-concrete mb-3">── BEST OF ROBUCCA ──</div>
+        <h2 class="font-display text-5xl md:text-7xl uppercase tracking-tight text-rbc-cream-light">ESSENTIALS</h2>
+      </div>
+
+      <!-- 2 Horizontal Product Cards (50/50) -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        
+        <!-- Card 1: Kopi Susu Essentials -->
+        <div class="flex flex-col md:flex-row bg-rbc-green text-rbc-cream-light card-brutalist border border-rbc-cream-light rounded-none overflow-hidden" data-aos="fade-up" data-aos-delay="100">
+          <!-- Card Image area -->
+          <div class="w-full md:w-2/5 min-h-[260px] bg-rbc-green-d/50 border-b md:border-b-0 md:border-r border-rbc-cream-light relative overflow-hidden">
+            <img src="img/kopi-susu-essentials.webp" alt="Kopi Susu Essentials" class="w-full h-full object-cover">
+            <div class="absolute inset-2 border border-dashed border-rbc-cream-light/25 pointer-events-none"></div>
+          </div>
+          <!-- Card info -->
+          <div class="w-full md:w-3/5 p-8 flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-start mb-4">
+                <span class="font-mono text-[10px] tracking-widest text-rbc-red uppercase border border-rbc-red px-2 py-0.5 font-bold">SIGNATURE</span>
+                <span class="font-display text-2xl text-rbc-cream-light">Rp 22.000</span>
+              </div>
+              <h3 class="font-display text-3xl uppercase tracking-wide text-rbc-cream-light mb-3">Kopi Susu Essentials</h3>
+              <p class="font-mono text-xs text-rbc-cream-light/70 leading-relaxed">
+                Kopi susu dengan espresso lokal pilihan, perpaduan sempurna antara bold dan smooth yang diracik khusus untuk menemani hari-harimu.
+              </p>
+            </div>
+            <a href="https://instagram.com/robucca.id" target="_blank" class="mt-8 inline-flex items-center justify-between border-t border-rbc-cream-light/20 pt-4 text-xs font-mono tracking-widest text-rbc-cream-light hover:text-rbc-red transition-colors group">
+              ORDER NOW <span class="transform group-hover:translate-x-2 transition-transform">→</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Card 2: Kopi Kelapa -->
+        <div class="flex flex-col md:flex-row bg-rbc-cream-d text-rbc-black card-brutalist border border-rbc-cream-light rounded-none overflow-hidden" data-aos="fade-up" data-aos-delay="200">
+          <!-- Card Image area -->
+          <div class="w-full md:w-2/5 min-h-[260px] bg-rbc-cream-light/40 border-b md:border-b-0 md:border-r border-rbc-cream-light relative overflow-hidden">
+            <img src="img/kopi-kelapa.webp" alt="Kopi Kelapa" class="w-full h-full object-cover">
+            <div class="absolute inset-2 border border-dashed border-black/15 pointer-events-none"></div>
+          </div>
+          <!-- Card info -->
+          <div class="w-full md:w-3/5 p-8 flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-start mb-4">
+                <span class="font-mono text-[10px] tracking-widest text-rbc-concrete uppercase border border-rbc-concrete px-2 py-0.5">SIGNATURE</span>
+                <span class="font-display text-2xl text-rbc-cream-light">Rp 24.000</span>
+              </div>
+              <h3 class="font-display text-3xl uppercase tracking-wide text-rbc-black mb-3">Kopi Kelapa</h3>
+              <p class="font-mono text-xs text-rbc-black/70 leading-relaxed">
+                Perpaduan espresso robusta pilihan dengan kesegaran air kelapa murni, menghasilkan rasa kopi yang manis alami, gurih, dan tropical.
+              </p>
+            </div>
+            <a href="https://instagram.com/robucca.id" target="_blank" class="mt-8 inline-flex items-center justify-between border-t border-rbc-black/15 pt-4 text-xs font-mono tracking-widest text-rbc-black hover:text-rbc-red transition-colors group">
+              ORDER NOW <span class="transform group-hover:translate-x-2 transition-transform">→</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bottom Tagline -->
+      <div class="mt-16 text-center" data-aos="fade-up">
+        <p class="font-serif italic text-2xl text-rbc-cream-light">
+          "Dua minuman. Satu identitas."
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 4. ABOUT TEASER SECTION -->
+  <section class="py-24 md:py-32 px-6 md:px-12 bg-rbc-green text-rbc-cream-light border-b border-rbc-cream-light texture-concrete">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      
+      <!-- Left: Narrative -->
+      <div class="lg:col-span-5" data-aos="fade-right">
+        <span class="font-mono text-xs text-rbc-red uppercase tracking-widest mb-3 block">TENTANG ROBUCCA</span>
+        <h2 class="font-display text-5xl md:text-6xl uppercase tracking-tight text-rbc-cream-light mb-6">
+          BRUTAL.<br>HANGAT.<br>OTENTIK.
+        </h2>
+        <p class="font-mono text-sm text-rbc-cream-light/80 leading-relaxed mb-8">
+          Robucca lahir dari satu keyakinan: bahwa ruang yang baik membuat kopi terasa lebih baik. Kami merancang setiap sudut dengan presisi dan keberanian, memadukan beton ekspos yang dingin dengan kehangatan sofa kulit tua dan merah menyala yang berani.
+        </p>
+        <p class="font-mono text-sm text-rbc-cream-light/80 leading-relaxed mb-8">
+          Kami tidak menghias ruang untuk berpura-pura. Kami menampilkan material apa adanya. Itulah kejujuran yang kami tuangkan dalam kopi kami.
+        </p>
+        <a href="about.html" class="inline-flex items-center border border-rbc-cream-light px-6 py-3 font-mono text-xs uppercase tracking-widest text-rbc-cream-light hover:bg-rbc-cream hover:text-rbc-green transition-all duration-300 rounded-none">
+          KENALAN LEBIH DEKAT <span class="ml-2">→</span>
+        </a>
+      </div>
+
+      <!-- Right: Building Image Showcase -->
+      <div class="lg:col-span-7 flex justify-center" data-aos="zoom-in" data-aos-delay="100">
+        <div class="w-full max-w-lg border border-rbc-cream-light bg-rbc-green-d/40 p-4 relative overflow-hidden">
+          <div class="absolute inset-1 border border-dashed border-rbc-cream-light/10 pointer-events-none"></div>
+          <div class="relative z-10 flex flex-col space-y-4">
+            <div class="border border-rbc-cream-light/30 overflow-hidden aspect-[4/3] bg-rbc-green-d">
+              <img src="img/foto-depan-gedung.webp" alt="Gedung Robucca" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700">
+            </div>
+            <div class="flex justify-between items-center text-[10px] font-mono uppercase text-rbc-concrete border-t border-rbc-cream-light/10 pt-3">
+              <span>EXTERIOR ARCHITECTURE</span>
+              <span>MALANG, INDONESIA</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 5. MENU TEASER SECTION -->
+  <section class="py-24 md:py-32 px-6 md:px-12 bg-rbc-cream border-b border-rbc-cream-light relative">
+    <div class="max-w-7xl mx-auto">
+      
+      <!-- Top header -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-16" data-aos="fade-up">
+        <div class="mb-6 md:mb-0">
+          <span class="font-mono text-xs text-rbc-concrete uppercase tracking-widest mb-3 block">EKSPLORASI MENU</span>
+          <h2 class="font-display text-5xl md:text-7xl uppercase tracking-tight text-rbc-cream-light leading-[0.9]">
+            ADA BANYAK<br>YANG BISA<br>KAMU COBA.
+          </h2>
+        </div>
+        <div>
+          <a href="menu.html" class="inline-block border border-rbc-black bg-rbc-black text-rbc-cream-light hover:bg-rbc-red hover:border-rbc-red px-8 py-4 font-mono text-xs uppercase tracking-widest font-bold transition-all duration-300 rounded-none btn-brutalist">
+            LIHAT SEMUA MENU
+          </a>
+        </div>
+      </div>
+
+      <!-- 3 Columns Preview -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        <!-- Category Card 1: Beverage -->
+        <div class="card-brutalist border border-rbc-cream-light bg-rbc-cream flex flex-col justify-between min-h-[460px] relative group overflow-hidden" data-aos="fade-up" data-aos-delay="100">
+          <div class="absolute inset-0 bg-rbc-green translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out z-0"></div>
+          
+          <div class="relative z-10 flex flex-col justify-between h-full group-hover:text-rbc-cream-light transition-colors duration-300">
+            <div>
+              <div class="w-full h-56 border-b border-rbc-cream-light overflow-hidden bg-rbc-green-d relative mb-4">
+                <img src="img/beverages.webp" alt="Beverages" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+              </div>
+              <div class="px-6 pb-2">
+                <div class="flex justify-between items-start mb-3">
+                  <span class="font-mono text-xs tracking-widest text-rbc-concrete uppercase group-hover:text-rbc-cream-light/70">CAT: 01</span>
+                  <!-- SVG Icon Coffee Cup outline -->
+                  <svg class="w-6 h-8 stroke-current text-rbc-cream-light group-hover:text-rbc-cream-light" fill="none" viewBox="0 0 24 36" stroke-width="1.5">
+                    <path d="M4 4h16v18a6 6 0 0 1-6 6h-4a6 6 0 0 1-6-6V4Z" />
+                    <path d="M20 8h2a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2" />
+                  </svg>
+                </div>
+                <h3 class="font-display text-4xl uppercase tracking-wider mb-1">BEVERAGE</h3>
+                <p class="font-mono text-xs text-rbc-concrete group-hover:text-rbc-cream-light-d/70 mb-2">45+ MINUMAN</p>
+                <p class="font-mono text-xs leading-relaxed opacity-75">
+                  Mulai dari Kopi Susu Essentials yang bold, kesegaran Kopi Kelapa, hingga double cream Ceremonial Matcha.
+                </p>
+              </div>
+            </div>
+            <div class="px-6 pb-6">
+              <a href="menu.html?cat=BEVERAGE" class="font-mono text-xs tracking-widest uppercase font-bold border-b border-rbc-red pb-1 w-fit">
+                LIHAT SEMUA
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Category Card 2: Snacks -->
+        <div class="card-brutalist border border-rbc-cream-light bg-rbc-cream flex flex-col justify-between min-h-[460px] relative group overflow-hidden" data-aos="fade-up" data-aos-delay="200">
+          <div class="absolute inset-0 bg-rbc-green translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out z-0"></div>
+          
+          <div class="relative z-10 flex flex-col justify-between h-full group-hover:text-rbc-cream-light transition-colors duration-300">
+            <div>
+              <div class="w-full h-56 border-b border-rbc-cream-light overflow-hidden bg-rbc-green-d relative mb-4">
+                <img src="img/snacks.webp" alt="Snacks" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+              </div>
+              <div class="px-6 pb-2">
+                <div class="flex justify-between items-start mb-3">
+                  <span class="font-mono text-xs tracking-widest text-rbc-concrete uppercase group-hover:text-rbc-cream-light/70">CAT: 02</span>
+                  <!-- SVG Croissant or Plate icon -->
+                  <svg class="w-8 h-8 stroke-current text-rbc-cream-light group-hover:text-rbc-cream-light" fill="none" viewBox="0 0 36 36" stroke-width="1.5">
+                    <path d="M3 18 A15 15 0 0 0 33 18 Z" />
+                    <line x1="3" y1="18" x2="33" y2="18" />
+                    <path d="M12 18 A6 6 0 0 1 24 18" />
+                  </svg>
+                </div>
+                <h3 class="font-display text-4xl uppercase tracking-wider mb-1">SNACKS</h3>
+                <p class="font-mono text-xs text-rbc-concrete group-hover:text-rbc-cream-light-d/70 mb-2">30+ PILIHAN</p>
+                <p class="font-mono text-xs leading-relaxed opacity-75">
+                  Croissant plain hingga matcha, Tiramisu legendaris by Rbc., takoyaki hangat, dan Aromatic Garlic Fries.
+                </p>
+              </div>
+            </div>
+            <div class="px-6 pb-6">
+              <a href="menu.html?cat=SNACKS" class="font-mono text-xs tracking-widest uppercase font-bold border-b border-rbc-red pb-1 w-fit">
+                LIHAT SEMUA
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Category Card 3: Foods -->
+        <div class="card-brutalist border border-rbc-cream-light bg-rbc-cream flex flex-col justify-between min-h-[460px] relative group overflow-hidden" data-aos="fade-up" data-aos-delay="300">
+          <div class="absolute inset-0 bg-rbc-green translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out z-0"></div>
+          
+          <div class="relative z-10 flex flex-col justify-between h-full group-hover:text-rbc-cream-light transition-colors duration-300">
+            <div>
+              <div class="w-full h-56 border-b border-rbc-cream-light overflow-hidden bg-rbc-green-d relative mb-4">
+                <img src="img/foods.webp" alt="Foods" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+              </div>
+              <div class="px-6 pb-2">
+                <div class="flex justify-between items-start mb-3">
+                  <span class="font-mono text-xs tracking-widest text-rbc-concrete uppercase group-hover:text-rbc-cream-light/70">CAT: 03</span>
+                  <!-- SVG Bowl icon -->
+                  <svg class="w-8 h-8 stroke-current text-rbc-cream-light group-hover:text-rbc-cream-light" fill="none" viewBox="0 0 36 36" stroke-width="1.5">
+                    <path d="M6 18 A12 12 0 0 0 30 18 H6 Z" />
+                    <line x1="2" y1="14" x2="34" y2="14" />
+                  </svg>
+                </div>
+                <h3 class="font-display text-4xl uppercase tracking-wider mb-1">FOODS</h3>
+                <p class="font-mono text-xs text-rbc-concrete group-hover:text-rbc-cream-light-d/70 mb-2">27+ HIDANGAN</p>
+                <p class="font-mono text-xs leading-relaxed opacity-75">
+                  Katsu Curry Ramen hangat yang kaya rasa, Donburi gurih, Japanese Salad, bento lezat, dan classic pasta.
+                </p>
+              </div>
+            </div>
+            <div class="px-6 pb-6">
+              <a href="menu.html?cat=FOODS" class="font-mono text-xs tracking-widest uppercase font-bold border-b border-rbc-red pb-1 w-fit">
+                LIHAT SEMUA
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 6. LOCATIONS & MAP SECTION -->
+  <section class="py-24 md:py-32 px-6 md:px-12 bg-rbc-green-d text-rbc-cream-light border-b border-rbc-cream-light relative">
+    <!-- Grid overlay lines -->
+    <div class="absolute inset-y-0 left-12 border-l border-rbc-cream-light/5 pointer-events-none"></div>
+    <div class="absolute inset-y-0 right-12 border-r border-rbc-cream-light/5 pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto relative z-10">
+      
+      <!-- Headers -->
+      <div class="mb-16" data-aos="fade-up">
+        <span class="font-mono text-xs uppercase tracking-widest text-rbc-concrete/60 mb-3 block">WHERE TO FIND US</span>
+        <h2 class="font-display text-5xl md:text-7xl uppercase tracking-tight text-rbc-cream-light leading-[0.9]">
+          4 TITIK.<br>SATU JIWA.
+        </h2>
+      </div>
+
+      <!-- Split Layout: Cards left, Google map right -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        
+        <!-- Left: 4 Location Cards (Grid 2x2) -->
+        <div class="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
+          
+          <!-- Card 1: Ijen -->
+          <a href="https://maps.google.com/?q=Jl.+Ijen+Malang" target="_blank" class="border border-rbc-concrete p-6 flex flex-col justify-between min-h-[160px] hover:border-rbc-red transition-all duration-300 group block" data-aos="fade-up" data-aos-delay="100">
+            <div>
+              <h3 class="font-display text-3xl tracking-wide text-rbc-cream-light mb-2 group-hover:text-rbc-red transition-colors">IJEN (MALANG)</h3>
+              <p class="font-mono text-xs text-rbc-concrete">Jl. Ijen, Malang</p>
+            </div>
+            <div class="mt-6 flex justify-between items-center">
+              <span class="font-mono text-[10px] text-rbc-cream-light/50">08.00 – 21.00</span>
+              <span class="w-2 h-2 bg-rbc-concrete"></span>
+            </div>
+          </a>
+
+          <!-- Card 2: Soehat -->
+          <a href="https://maps.google.com/?q=Jl.+Soekarno+Hatta+Malang" target="_blank" class="border border-rbc-concrete p-6 flex flex-col justify-between min-h-[160px] hover:border-rbc-red transition-all duration-300 group relative overflow-hidden block" data-aos="fade-up" data-aos-delay="150">
+            <!-- Diagonal 24 Hours Banner -->
+            <div class="absolute top-2 right-2 bg-rbc-red text-rbc-cream-light px-2 py-0.5 text-[8px] font-mono font-bold tracking-widest uppercase">
+              24 JAM
+            </div>
+            <div>
+              <h3 class="font-display text-3xl tracking-wide text-rbc-cream-light mb-2 group-hover:text-rbc-red transition-colors">SOEHAT (MALANG)</h3>
+              <p class="font-mono text-xs text-rbc-concrete">Jl. Soekarno-Hatta, Malang</p>
+            </div>
+            <div class="mt-6 flex justify-between items-center">
+              <span class="font-mono text-[10px] text-rbc-cream-light/50">BUKA 24 JAM</span>
+              <span class="w-2 h-2 bg-rbc-red animate-ping"></span>
+            </div>
+          </a>
+
+          <!-- Card 3: Kediri -->
+          <a href="https://maps.google.com/?q=Kediri+Jawa+Timur" target="_blank" class="border border-rbc-concrete p-6 flex flex-col justify-between min-h-[160px] hover:border-rbc-red transition-all duration-300 group block" data-aos="fade-up" data-aos-delay="200">
+            <div>
+              <h3 class="font-display text-3xl tracking-wide text-rbc-cream-light mb-2 group-hover:text-rbc-red transition-colors">KEDIRI</h3>
+              <p class="font-mono text-xs text-rbc-concrete">Kediri, Jawa Timur</p>
+            </div>
+            <div class="mt-6 flex justify-between items-center">
+              <span class="font-mono text-[10px] text-rbc-cream-light/50">08.00 – 23.00</span>
+              <span class="w-2 h-2 bg-rbc-concrete"></span>
+            </div>
+          </a>
+
+          <!-- Card 4: Tulungagung -->
+          <a href="https://maps.google.com/?q=Tulungagung+Jawa+Timur" target="_blank" class="border border-rbc-concrete p-6 flex flex-col justify-between min-h-[160px] hover:border-rbc-red transition-all duration-300 group block" data-aos="fade-up" data-aos-delay="250">
+            <div>
+              <h3 class="font-display text-3xl tracking-wide text-rbc-cream-light mb-2 group-hover:text-rbc-red transition-colors">TULUNGAGUNG</h3>
+              <p class="font-mono text-xs text-rbc-concrete">Tulungagung, Jawa Timur</p>
+            </div>
+            <div class="mt-6 flex justify-between items-center">
+              <span class="font-mono text-[10px] text-rbc-cream-light/50">08.00 – 23.00</span>
+              <span class="w-2 h-2 bg-rbc-concrete"></span>
+            </div>
+          </a>
+
+        </div>
+
+        <!-- Right: Map Embed (Flagship Soehat) -->
+        <div class="lg:col-span-6" data-aos="zoom-in" data-aos-delay="300">
+          <div class="border border-rbc-concrete p-2 bg-rbc-green-d relative">
+            <div class="absolute top-4 left-4 z-10 bg-rbc-green-d/95 border border-rbc-concrete/45 px-3 py-1">
+              <span class="font-mono text-[9px] uppercase tracking-widest text-rbc-cream-light font-bold">FLAGSHIP · SOEHAT · 24 JAM</span>
+            </div>
+            
+            <div class="w-full map-grayscale h-[250px] md:h-[400px]">
+              <iframe 
+                src="https://maps.google.com/maps?q=Jl.+Soekarno+Hatta+Malang&output=embed" 
+                width="100%" 
+                height="100%" 
+                style="border:0;" 
+                allowfullscreen="" 
+                loading="lazy" 
+                referrerpolicy="no-referrer-when-downgrade">
+              </iframe>
+            </div>
+          </div>
+          <div class="mt-4 text-right">
+            <a href="https://maps.google.com/?q=Jl.+Soekarno+Hatta+Malang" target="_blank" class="font-mono text-[11px] uppercase tracking-widest text-rbc-cream-light hover:text-rbc-red border-b border-rbc-red pb-1 transition-colors">
+              BUKA DI GOOGLE MAPS →
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 7. FINAL CTA SECTION (WhatsApp Quick Connect) -->
+  <section class="py-24 md:py-32 px-6 md:px-12 bg-rbc-red text-rbc-cream-light text-center relative overflow-hidden texture-concrete">
+    <!-- Grid elements -->
+    <div class="absolute inset-0 border border-dashed border-rbc-cream-light/5 grid grid-cols-4 grid-rows-4 pointer-events-none"></div>
+    
+    <div class="max-w-4xl mx-auto relative z-10" data-aos="scale-up">
+      <h2 class="font-display text-[70px] sm:text-[90px] md:text-[120px] uppercase leading-[0.9] tracking-tight mb-6">
+        READY<br>TO ORDER?
+      </h2>
+      <p class="font-mono text-sm sm:text-base max-w-lg mx-auto mb-10 opacity-90 leading-relaxed">
+        Pesan kopi susu favoritmu, ramen hangat, atau bento box langsung melalui Instagram Direct Message. Layanan pengiriman atau ambil di tempat (pick-up) cepat.
+      </p>
+      
+      <a href="https://instagram.com/robucca.id" target="_blank" class="btn-brutalist inline-block bg-rbc-cream-light text-rbc-red font-mono text-sm uppercase tracking-widest font-extrabold px-12 py-5 rounded-none hover:bg-rbc-green-d hover:text-rbc-cream-light transition-colors duration-300 shadow-md">
+        ORDER NOW
+      </a>
+    </div>
+  </section>
+
+  <!-- 8. STATS COUNTER STRIP -->
+  <section class="py-12 bg-rbc-green border-t border-b border-rbc-cream-light text-rbc-cream-light texture-concrete">
+    <div class="max-w-7xl mx-auto px-6 md:px-12">
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+        <div>
+          <div class="font-display text-5xl md:text-6xl text-rbc-cream-light stat-counter" data-target="2021" data-suffix="">2021</div>
+          <div class="font-mono text-[10px] text-rbc-concrete uppercase tracking-widest mt-2">TAHUN BERDIRI</div>
+        </div>
+        <div>
+          <div class="font-display text-5xl md:text-6xl text-rbc-cream-light stat-counter" data-target="4" data-suffix="">4</div>
+          <div class="font-mono text-[10px] text-rbc-concrete uppercase tracking-widest mt-2">CABANG OUTLET</div>
+        </div>
+        <div>
+          <div class="font-display text-5xl md:text-6xl text-rbc-cream-light stat-counter" data-target="100" data-suffix="+">100+</div>
+          <div class="font-mono text-[10px] text-rbc-concrete uppercase tracking-widest mt-2">KAPASITAS RUANG</div>
+        </div>
+        <div>
+          <div class="font-display text-5xl md:text-6xl text-rbc-cream-light stat-counter" data-target="10" data-suffix="K">10K</div>
+          <div class="font-mono text-[10px] text-rbc-concrete uppercase tracking-widest mt-2">KONSUMSI BULANAN</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. FOOTER -->
+  <footer class="bg-rbc-green-d text-rbc-cream-light pt-16 pb-8 border-t-[4px] border-rbc-red relative texture-concrete">
+    <!-- Grid border lines -->
+    <div class="absolute inset-y-0 left-12 border-l border-rbc-cream-light/5 pointer-events-none"></div>
+    <div class="absolute inset-y-0 right-12 border-r border-rbc-cream-light/5 pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+      
+      <!-- Footer grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 pb-12">
+        
+        <!-- Left: Logo & description -->
+        <div class="lg:col-span-5 space-y-6">
+          <a href="index.html" class="flex items-baseline space-x-1">
+            <span class="font-serif italic font-black text-3xl text-rbc-cream-light tracking-tight">Robucca</span>
+            <span class="font-mono text-[10px] uppercase tracking-widest text-rbc-concrete">by Rbc.</span>
+          </a>
+          <p class="font-serif italic text-lg text-rbc-cream-light/80 max-w-sm leading-relaxed">
+            "Rough Spaces, Warm Moments"
+          </p>
+          <div class="text-[11px] font-mono uppercase tracking-widest text-rbc-concrete space-y-1">
+            <p>Part of Rbc Group</p>
+            <p>Brutalist F&B Architecture // Malang</p>
+          </div>
+        </div>
+
+        <!-- Center: Links & Socials -->
+        <div class="lg:col-span-3 space-y-6">
+          <div class="font-mono text-xs uppercase tracking-widest text-rbc-red font-bold">PINTASAN</div>
+          <ul class="space-y-3 font-mono text-xs text-rbc-cream-light/80">
+            <li><a href="index.html" class="hover:text-rbc-red hover:underline transition-all">HOME</a></li>
+            <li><a href="menu.html" class="hover:text-rbc-red hover:underline transition-all">MENU MAKANAN & KOPI</a></li>
+            <li><a href="about.html" class="hover:text-rbc-red hover:underline transition-all">TENTANG KAMI</a></li>
+            <li><a href="contact.html" class="hover:text-rbc-red hover:underline transition-all">KONTAK & LOKASI</a></li>
+          </ul>
+          
+          <div class="pt-2">
+            <div class="font-mono text-[11px] uppercase tracking-widest text-rbc-concrete mb-2">SOSIAL MEDIA</div>
+            <a href="https://instagram.com/robucca.id" target="_blank" class="font-mono text-xs text-rbc-cream-light hover:text-rbc-red transition-all">
+              @robucca.id
+            </a>
+          </div>
+        </div>
+
+        <!-- Right: Contacts & Branches -->
+        <div class="lg:col-span-4 space-y-6">
+          <div class="font-mono text-xs uppercase tracking-widest text-rbc-red font-bold">INFO LOKASI</div>
+          
+          <div class="space-y-4 font-mono text-xs">
+            <div class="flex justify-between border-b border-rbc-cream-light/15 pb-2">
+              <span class="text-rbc-cream-light/80">Ijen (Malang)</span>
+              <span class="text-rbc-concrete">08.00 – 21.00</span>
+            </div>
+            <div class="flex justify-between border-b border-rbc-cream-light/15 pb-2">
+              <span class="text-rbc-cream-light/80">Soehat (Malang)</span>
+              <span class="text-rbc-red font-bold">24 Jam</span>
+            </div>
+            <div class="flex justify-between border-b border-rbc-cream-light/15 pb-2">
+              <span class="text-rbc-cream-light/80">Kediri</span>
+              <span class="text-rbc-concrete">08.00 – 23.00</span>
+            </div>
+            <div class="flex justify-between border-b border-rbc-cream-light/15 pb-2">
+              <span class="text-rbc-cream-light/80">Tulungagung</span>
+              <span class="text-rbc-concrete">08.00 – 23.00</span>
+            </div>
+          </div>
+          
+          <div class="pt-2 font-mono text-xs">
+            <span class="text-rbc-concrete">WHATSAPP:</span>
+            <a href="https://wa.me/6287741848928" target="_blank" class="text-rbc-cream-light hover:text-rbc-red font-bold block mt-1">
+              0877-4184-8928
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bottom Strip -->
+      <div class="border-t border-rbc-cream-light/15 pt-8 flex flex-col md:flex-row items-center justify-between text-[11px] font-mono text-rbc-concrete">
+        <div>
+          © 2024 Robucca · Rbc Group · Malang, Jawa Timur.
+        </div>
+        <div class="mt-4 md:mt-0 flex space-x-6">
+          <span>RAW CONCRETE, EXPOSED STRUCTURE, SOULS OF WARMTH</span>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- Main JS file -->
+  <script src="main.js"></script>
+
+</body>
+</html>

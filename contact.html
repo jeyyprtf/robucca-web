@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="id" class="h-full scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kontak & Lokasi — Robucca</title>
+  <meta name="description" content="Temukan rute ke 4 cabang Robucca di Malang, Kediri, dan Tulungagung. Hubungi kami langsung via WhatsApp untuk pertanyaan.">
+
+  <!-- Shared CSS Link -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Tailwind CSS & Brand Configuration -->
+  <script>
+    window.tailwind = {
+      config: {
+        theme: {
+          extend: {
+            colors: {
+              'rbc-green':   '#1C3A2A',
+              'rbc-green-d': '#0F2218',
+              'rbc-green-l': '#2A5040',
+              'rbc-cream':   'rgba(15, 34, 24, 0.95)',
+              'rbc-cream-light': '#F5EDD6',
+              'rbc-cream-d': '#E0D4BB',
+              'rbc-red':     '#CC2200',
+              'rbc-brown':   '#2C1A0E',
+              'rbc-concrete':'#8C8880',
+              'rbc-black':   '#0A0A0A',
+            },
+            fontFamily: {
+              'display': ['"Bebas Neue"', 'sans-serif'],
+              'mono':    ['"DM Mono"', 'monospace'],
+              'serif':   ['"Fraunces"', 'serif'],
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&display=swap" rel="stylesheet">
+
+  <!-- Alpine.js -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <!-- AOS (Animate on Scroll) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+</head>
+<body class="bg-rbc-cream text-rbc-cream-light font-mono overflow-x-hidden selection:bg-rbc-red selection:text-rbc-cream-light" x-data="mobileNav">
+
+  <!-- NAVBAR -->
+  <nav id="navbar" class="fixed top-0 left-0 w-full h-16 bg-rbc-green border-b border-rbc-cream-light/15 z-50 transition-all duration-300 flex items-center justify-between px-6 md:px-12">
+    <!-- Left: Wordmark -->
+    <a href="index.html" class="flex items-baseline space-x-1 group">
+      <span class="font-serif italic font-black text-2xl md:text-3xl text-rbc-cream-light tracking-tight transition-transform duration-300 group-hover:scale-105">Robucca</span>
+      <span class="font-mono text-[9px] uppercase tracking-widest text-rbc-concrete">by Rbc.</span>
+    </a>
+
+    <!-- Center: Desktop Menu -->
+    <div class="hidden md:flex items-center space-x-8">
+      <a href="index.html" class="nav-link font-mono text-xs uppercase tracking-widest text-rbc-cream-light hover:text-rbc-cream-light-d py-2">HOME</a>
+      <a href="menu.html" class="nav-link font-mono text-xs uppercase tracking-widest text-rbc-cream-light hover:text-rbc-cream-light-d py-2">MENU</a>
+      <a href="about.html" class="nav-link font-mono text-xs uppercase tracking-widest text-rbc-cream-light hover:text-rbc-cream-light-d py-2">TENTANG</a>
+      <a href="contact.html" class="nav-link active font-mono text-xs uppercase tracking-widest text-rbc-cream-light hover:text-rbc-cream-light-d py-2">KONTAK</a>
+    </div>
+
+    <!-- Right: Desktop WA CTA & Hamburger -->
+    <div class="flex items-center space-x-4">
+      <a href="https://instagram.com/robucca.id" target="_blank" class="hidden sm:inline-block border border-rbc-cream-light px-4 py-2 font-mono text-[11px] uppercase tracking-widest text-rbc-cream-light hover:bg-rbc-red hover:border-rbc-red transition-all duration-300 rounded-none">
+        ORDER NOW
+      </a>
+      
+      <!-- Mobile Hamburger Button -->
+      <button @click="toggle()" class="md:hidden flex flex-col justify-between w-6 h-4 group focus:outline-none" aria-label="Toggle Menu">
+        <span class="w-full h-0.5 bg-rbc-cream transition-transform duration-300" :class="isOpen ? 'rotate-45 translate-y-[7px]' : ''"></span>
+        <span class="w-full h-0.5 bg-rbc-cream transition-opacity duration-300" :class="isOpen ? 'opacity-0' : ''"></span>
+        <span class="w-full h-0.5 bg-rbc-cream transition-transform duration-300" :class="isOpen ? '-rotate-45 -translate-y-[7px]' : ''"></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu Drawer (Overlay) -->
+  <div x-show="isOpen" 
+       x-cloak 
+       x-transition:enter="transition ease-out duration-300"
+       x-transition:enter-start="opacity-0 translate-y-4"
+       x-transition:enter-end="opacity-100 translate-y-0"
+       x-transition:leave="transition ease-in duration-200"
+       x-transition:leave-start="opacity-100 translate-y-0"
+       x-transition:leave-end="opacity-0 translate-y-4"
+       class="fixed inset-0 bg-rbc-green-d text-rbc-cream-light z-40 flex flex-col justify-between p-8 pt-24 texture-concrete">
+    
+    <div class="absolute inset-0 border-r border-l border-rbc-cream-light/5 pointer-events-none mx-8"></div>
+    
+    <div class="flex flex-col space-y-6 relative z-10">
+      <div class="font-mono text-xs text-rbc-red tracking-widest uppercase mb-2">NAVIGASI</div>
+      <a href="index.html" @click="close()" class="font-display text-5xl uppercase tracking-wider hover:text-rbc-red transition-colors">HOME</a>
+      <a href="menu.html" @click="close()" class="font-display text-5xl uppercase tracking-wider hover:text-rbc-red transition-colors">MENU</a>
+      <a href="about.html" @click="close()" class="font-display text-5xl uppercase tracking-wider hover:text-rbc-red transition-colors">TENTANG</a>
+      <a href="contact.html" @click="close()" class="font-display text-5xl uppercase tracking-wider hover:text-rbc-red transition-colors active-link-highlight">KONTAK</a>
+    </div>
+
+    <div class="relative z-10 flex flex-col space-y-4 border-t border-rbc-cream-light/10 pt-6">
+      <div>
+        <p class="font-serif italic text-lg text-rbc-cream-light">"Rough Spaces, Warm Moments"</p>
+        <p class="text-[10px] font-mono uppercase text-rbc-concrete tracking-widest mt-1">Part of Rbc Group</p>
+      </div>
+      <div class="flex justify-between items-center text-xs">
+        <a href="https://instagram.com/robucca.id" target="_blank" class="hover:text-rbc-red transition-colors">@robucca.id</a>
+        <a href="https://wa.me/6287741848928" target="_blank" class="text-rbc-red font-bold hover:underline">WA: 0877-4184-8928</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO SECTION -->
+  <section class="h-[320px] bg-rbc-green-d text-rbc-cream-light pt-16 flex items-center px-6 md:px-12 relative overflow-hidden texture-concrete">
+    <div class="absolute inset-y-0 left-12 border-l border-rbc-cream-light/5 pointer-events-none"></div>
+    <div class="absolute inset-y-0 right-12 border-r border-rbc-cream-light/5 pointer-events-none"></div>
+
+    <div class="relative z-10 w-full flex flex-col md:flex-row md:items-end md:justify-between">
+      <div>
+        <h1 class="font-display text-[55px] md:text-[90px] leading-[0.9] uppercase tracking-tight text-rbc-cream-light mb-3">
+          KONTAK &<br>LOKASI
+        </h1>
+        <p class="font-mono text-xs md:text-sm text-rbc-cream-light/70 uppercase tracking-widest">4 lokasi. 1 cara untuk terhubung.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 LOCATION CARDS SECTION -->
+  <section class="py-24 md:py-32 px-6 md:px-12 bg-rbc-cream border-t border-b border-rbc-cream-light relative">
+    <div class="max-w-7xl mx-auto">
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        
+        <!-- Card 1: Ijen -->
+        <div class="bg-rbc-cream border-2 border-rbc-cream-light flex flex-col justify-between min-h-[380px] hover:border-rbc-red transition-all duration-300 group overflow-hidden" data-aos="fade-up" data-aos-delay="100">
+          <div class="w-full h-48 border-b border-rbc-cream-light overflow-hidden bg-rbc-green-d relative">
+            <img src="img/robucca-ijen.webp" alt="Robucca Ijen" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+          </div>
+          <div class="p-8 flex-grow flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-start mb-4">
+                <h2 class="font-display text-4xl tracking-wide text-rbc-cream-light group-hover:text-rbc-red transition-colors">IJEN (MALANG)</h2>
+                <span class="font-mono text-[9px] border border-rbc-green text-rbc-green px-2 py-0.5 font-bold uppercase tracking-widest">BUKA SEKARANG</span>
+              </div>
+              <p class="font-mono text-xs text-rbc-cream-light/75 mb-2 leading-relaxed">
+                Jl. Ijen No. 45, Klojen, Kota Malang, Jawa Timur 65112
+              </p>
+              <p class="font-mono text-[11px] text-rbc-concrete">
+                Telepon/WhatsApp: 0877-4184-8928
+              </p>
+            </div>
+            <div class="mt-8 pt-4 border-t border-rbc-cream-light/10 flex justify-between items-center text-xs">
+              <span class="text-rbc-concrete">OPERASIONAL: 08.00 – 21.00</span>
+              <a href="https://maps.google.com/?q=Jl.+Ijen+Malang" target="_blank" class="font-bold hover:text-rbc-red transition-colors">PETUNJUK RUTE →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: Soehat -->
+        <div class="bg-rbc-cream border-2 border-rbc-cream-light flex flex-col justify-between min-h-[380px] hover:border-rbc-red transition-all duration-300 group relative overflow-hidden" data-aos="fade-up" data-aos-delay="150">
+          <div class="absolute top-0 right-0 bg-rbc-red text-rbc-cream-light px-3 py-1 text-[9px] font-mono font-bold tracking-widest uppercase z-10">
+            24 JAM
+          </div>
+          <div class="w-full h-48 border-b border-rbc-cream-light overflow-hidden bg-rbc-green-d relative">
+            <img src="img/robucca-suhat.webp" alt="Robucca Soehat" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+          </div>
+          <div class="p-8 flex-grow flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-start mb-4">
+                <h2 class="font-display text-4xl tracking-wide text-rbc-cream-light group-hover:text-rbc-red transition-colors">SOEHAT (MALANG)</h2>
+              </div>
+              <p class="font-mono text-xs text-rbc-cream-light/75 mb-2 leading-relaxed">
+                Jl. Soekarno-Hatta No. D-404, Lowokwaru, Kota Malang, Jawa Timur 65141
+              </p>
+              <p class="font-mono text-[11px] text-rbc-concrete">
+                Telepon/WhatsApp: 0877-4184-8928
+              </p>
+            </div>
+            <div class="mt-8 pt-4 border-t border-rbc-cream-light/10 flex justify-between items-center text-xs">
+              <span class="text-rbc-red font-bold animate-pulse">OPERASIONAL: 24 JAM NONSTOP</span>
+              <a href="https://maps.google.com/?q=Jl.+Soekarno+Hatta+Malang" target="_blank" class="font-bold hover:text-rbc-red transition-colors">PETUNJUK RUTE →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3: Kediri -->
+        <div class="bg-rbc-cream border-2 border-rbc-cream-light flex flex-col justify-between min-h-[380px] hover:border-rbc-red transition-all duration-300 group overflow-hidden" data-aos="fade-up" data-aos-delay="200">
+          <div class="w-full h-48 border-b border-rbc-cream-light overflow-hidden bg-rbc-green-d relative">
+            <img src="img/robucca-kediri.webp" alt="Robucca Kediri" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+          </div>
+          <div class="p-8 flex-grow flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-start mb-4">
+                <h2 class="font-display text-4xl tracking-wide text-rbc-cream-light group-hover:text-rbc-red transition-colors">KEDIRI</h2>
+                <span class="font-mono text-[9px] border border-rbc-concrete text-rbc-concrete px-2 py-0.5 uppercase tracking-widest">BUKA SEKARANG</span>
+              </div>
+              <p class="font-mono text-xs text-rbc-cream-light/75 mb-2 leading-relaxed">
+                Jl. PK Bangsa No. 12, Kota Kediri, Jawa Timur 64122
+              </p>
+              <p class="font-mono text-[11px] text-rbc-concrete">
+                Telepon/WhatsApp: 0877-4184-8928
+              </p>
+            </div>
+            <div class="mt-8 pt-4 border-t border-rbc-cream-light/10 flex justify-between items-center text-xs">
+              <span class="text-rbc-concrete">OPERASIONAL: 08.00 – 23.00</span>
+              <a href="https://maps.google.com/?q=Kediri+Jawa+Timur" target="_blank" class="font-bold hover:text-rbc-red transition-colors">PETUNJUK RUTE →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4: Tulungagung -->
+        <div class="bg-rbc-cream border-2 border-rbc-cream-light flex flex-col justify-between min-h-[380px] hover:border-rbc-red transition-all duration-300 group overflow-hidden" data-aos="fade-up" data-aos-delay="250">
+          <div class="w-full h-48 border-b border-rbc-cream-light overflow-hidden bg-rbc-green-d relative">
+            <img src="img/robucca-tulungagung.webp" alt="Robucca Tulungagung" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+          </div>
+          <div class="p-8 flex-grow flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-start mb-4">
+                <h2 class="font-display text-4xl tracking-wide text-rbc-cream-light group-hover:text-rbc-red transition-colors">TULUNGAGUNG</h2>
+                <span class="font-mono text-[9px] border border-rbc-concrete text-rbc-concrete px-2 py-0.5 uppercase tracking-widest">BUKA SEKARANG</span>
+              </div>
+              <p class="font-mono text-xs text-rbc-cream-light/75 mb-2 leading-relaxed">
+                Jl. Diponegoro No. 88, Tulungagung, Jawa Timur 66212
+              </p>
+              <p class="font-mono text-[11px] text-rbc-concrete">
+                Telepon/WhatsApp: 0877-4184-8928
+              </p>
+            </div>
+            <div class="mt-8 pt-4 border-t border-rbc-cream-light/10 flex justify-between items-center text-xs">
+              <span class="text-rbc-concrete">OPERASIONAL: 08.00 – 23.00</span>
+              <a href="https://maps.google.com/?q=Tulungagung+Jawa+Timur" target="_blank" class="font-bold hover:text-rbc-red transition-colors">PETUNJUK RUTE →</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- GOOGLE MAPS EMBED -->
+  <section class="py-12 bg-rbc-green-d text-rbc-cream-light relative">
+    <div class="max-w-7xl mx-auto px-6 md:px-12">
+      <div class="font-mono text-xs uppercase tracking-widest text-rbc-concrete mb-4">TEMUKAN KAMI · SOEHAT · MALANG</div>
+      
+      <div class="border border-rbc-concrete p-2 bg-rbc-green-d w-full h-[350px] md:h-[450px] map-grayscale">
+        <iframe 
+          src="https://maps.google.com/maps?q=Jl.+Soekarno+Hatta+Malang&output=embed" 
+          width="100%" 
+          height="100%" 
+          style="border:0;" 
+          allowfullscreen="" 
+          loading="lazy" 
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+      
+      <div class="mt-4 text-right">
+        <a href="https://maps.google.com/?q=Jl.+Soekarno+Hatta+Malang" target="_blank" class="font-mono text-xs uppercase tracking-widest text-rbc-cream-light hover:text-rbc-red border-b border-rbc-red pb-1 transition-colors">
+          BUKA DI GOOGLE MAPS →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- KONTAK FORM & DETAILS SECTION -->
+  <section class="py-24 md:py-32 px-6 md:px-12 bg-rbc-green text-rbc-cream-light border-b border-rbc-cream-light relative texture-concrete">
+    <!-- Overlay Grid Lines -->
+    <div class="absolute inset-y-0 left-12 border-l border-rbc-cream-light/5 pointer-events-none"></div>
+    <div class="absolute inset-y-0 right-12 border-r border-rbc-cream-light/5 pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-10">
+      
+      <!-- Left Column: Details -->
+      <div class="lg:col-span-5" data-aos="fade-right">
+        <span class="font-mono text-xs text-rbc-red uppercase tracking-widest mb-3 block">NGOBROL YUK.</span>
+        <h2 class="font-display text-5xl md:text-6xl uppercase tracking-tight text-rbc-cream-light mb-8">
+          TANYA APAPUN<br>KEPADA KAMI.
+        </h2>
+        
+        <div class="space-y-6 font-mono text-xs sm:text-sm">
+          <div>
+            <span class="text-rbc-concrete block mb-1">WHATSAPP OFFICIAL:</span>
+            <a href="https://wa.me/6287741848928" target="_blank" class="text-lg text-rbc-cream-light hover:text-rbc-red font-bold">
+              0877-4184-8928
+            </a>
+          </div>
+          <div>
+            <span class="text-rbc-concrete block mb-1">INSTAGRAM DM:</span>
+            <a href="https://instagram.com/robucca.id" target="_blank" class="text-lg text-rbc-cream-light hover:text-rbc-red font-bold">
+              @robucca.id
+            </a>
+          </div>
+          <div>
+            <span class="text-rbc-concrete block mb-1">KANTOR PUSAT:</span>
+            <p class="text-rbc-cream-light">
+              Rbc Group HQ, Lowokwaru, Malang, Jawa Timur.
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-10">
+          <a href="https://wa.me/6287741848928" target="_blank" class="btn-brutalist inline-block bg-rbc-red text-rbc-cream-light font-mono text-xs uppercase tracking-widest font-extrabold px-8 py-4 rounded-none hover:bg-rbc-cream hover:text-rbc-green transition-colors shadow-md">
+            CHAT WA SEKARANG
+          </a>
+        </div>
+      </div>
+
+      <!-- Right Column: Interactive WA Form -->
+      <div class="lg:col-span-7 bg-rbc-green-d/60 border border-rbc-cream-light/20 p-8" data-aos="zoom-in" data-aos-delay="150" x-data="contactForm">
+        <div class="border-b border-rbc-cream-light/15 pb-4 mb-6">
+          <h3 class="font-mono text-sm font-bold uppercase tracking-widest">KIRIM PESAN LANGSUNG</h3>
+          <p class="text-[10px] text-rbc-concrete mt-1">Formulir terhubung otomatis ke nomor WhatsApp.</p>
+        </div>
+
+        <form @submit.prevent="submitForm()" class="space-y-6">
+          <!-- Input Nama -->
+          <div>
+            <label class="block font-mono text-xs uppercase tracking-widest text-rbc-concrete mb-2">Nama Lengkap *</label>
+            <input type="text" x-model="name" required placeholder="Tulis nama Anda..." class="w-full bg-rbc-green border border-rbc-cream-light/30 px-4 py-3 font-mono text-sm text-rbc-cream-light focus:outline-none focus:border-rbc-red rounded-none">
+          </div>
+
+          <!-- Input WA -->
+          <div>
+            <label class="block font-mono text-xs uppercase tracking-widest text-rbc-concrete mb-2">Nomor WhatsApp (Opsional)</label>
+            <input type="tel" x-model="waNumber" placeholder="Contoh: 0812xxxxxxxx" class="w-full bg-rbc-green border border-rbc-cream-light/30 px-4 py-3 font-mono text-sm text-rbc-cream-light focus:outline-none focus:border-rbc-red rounded-none">
+          </div>
+
+          <!-- Select Cabang -->
+          <div>
+            <label class="block font-mono text-xs uppercase tracking-widest text-rbc-concrete mb-2">Cabang yang Dituju</label>
+            <select x-model="location" class="w-full bg-rbc-green border border-rbc-cream-light/30 px-4 py-3 font-mono text-sm text-rbc-cream-light focus:outline-none focus:border-rbc-red rounded-none">
+              <option value="Ijen (Malang)">Ijen (Malang)</option>
+              <option value="Soehat (Malang)">Soehat (Malang)</option>
+              <option value="Kediri">Kediri</option>
+              <option value="Tulungagung">Tulungagung</option>
+            </select>
+          </div>
+
+          <!-- Textarea Pesan -->
+          <div>
+            <label class="block font-mono text-xs uppercase tracking-widest text-rbc-concrete mb-2">Pesan Anda *</label>
+            <textarea x-model="message" required rows="4" placeholder="Tulis pertanyaan, reservasi, atau saran Anda di sini..." class="w-full bg-rbc-green border border-rbc-cream-light/30 px-4 py-3 font-mono text-sm text-rbc-cream-light focus:outline-none focus:border-rbc-red rounded-none"></textarea>
+          </div>
+
+          <!-- Submit Button -->
+          <div>
+            <button type="submit" class="w-full btn-brutalist bg-rbc-cream text-rbc-green font-mono text-xs uppercase tracking-widest font-bold py-4 rounded-none hover:bg-rbc-red hover:text-rbc-cream-light transition-colors">
+              KIRIM VIA WHATSAPP
+            </button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SOCIAL STRIP -->
+  <section class="py-24 px-6 md:px-12 bg-rbc-cream text-center relative">
+    <div class="max-w-4xl mx-auto" data-aos="fade-up">
+      <h2 class="font-display text-5xl md:text-7xl uppercase tracking-tight text-rbc-cream-light mb-4">@ROBUCCA.ID</h2>
+      <p class="font-mono text-xs sm:text-sm text-rbc-concrete mb-8 max-w-md mx-auto leading-relaxed">
+        Ikuti kami untuk update menu terbaru, event menarik, promo bulanan, dan konten sehari-hari di outlet kami.
+      </p>
+      <a href="https://instagram.com/robucca.id" target="_blank" class="btn-brutalist inline-block border-2 border-rbc-black text-rbc-black font-mono text-xs uppercase tracking-widest font-extrabold px-8 py-4 rounded-none hover:bg-rbc-green-d hover:text-rbc-cream-light transition-all">
+        BUKA INSTAGRAM →
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-rbc-green-d text-rbc-cream-light pt-16 pb-8 border-t-[4px] border-rbc-red relative texture-concrete">
+    <div class="absolute inset-y-0 left-12 border-l border-rbc-cream-light/5 pointer-events-none"></div>
+    <div class="absolute inset-y-0 right-12 border-r border-rbc-cream-light/5 pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 pb-12">
+        
+        <!-- Left: Logo & description -->
+        <div class="lg:col-span-5 space-y-6">
+          <a href="index.html" class="flex items-baseline space-x-1">
+            <span class="font-serif italic font-black text-3xl text-rbc-cream-light tracking-tight">Robucca</span>
+            <span class="font-mono text-[10px] uppercase tracking-widest text-rbc-concrete">by Rbc.</span>
+          </a>
+          <p class="font-serif italic text-lg text-rbc-cream-light/80 max-w-sm leading-relaxed">
+            "Rough Spaces, Warm Moments"
+          </p>
+          <div class="text-[11px] font-mono uppercase tracking-widest text-rbc-concrete space-y-1">
+            <p>Part of Rbc Group</p>
+            <p>Brutalist F&B Architecture // Malang</p>
+          </div>
+        </div>
+
+        <!-- Center: Links & Socials -->
+        <div class="lg:col-span-3 space-y-6">
+          <div class="font-mono text-xs uppercase tracking-widest text-rbc-red font-bold">PINTASAN</div>
+          <ul class="space-y-3 font-mono text-xs text-rbc-cream-light/80">
+            <li><a href="index.html" class="hover:text-rbc-red hover:underline transition-all">HOME</a></li>
+            <li><a href="menu.html" class="hover:text-rbc-red hover:underline transition-all">MENU MAKANAN & KOPI</a></li>
+            <li><a href="about.html" class="hover:text-rbc-red hover:underline transition-all">TENTANG KAMI</a></li>
+            <li><a href="contact.html" class="hover:text-rbc-red hover:underline transition-all">KONTAK & LOKASI</a></li>
+          </ul>
+          
+          <div class="pt-2">
+            <div class="font-mono text-[11px] uppercase tracking-widest text-rbc-concrete mb-2">SOSIAL MEDIA</div>
+            <a href="https://instagram.com/robucca.id" target="_blank" class="font-mono text-xs text-rbc-cream-light hover:text-rbc-red transition-all">
+              @robucca.id
+            </a>
+          </div>
+        </div>
+
+        <!-- Right: Contacts & Branches -->
+        <div class="lg:col-span-4 space-y-6">
+          <div class="font-mono text-xs uppercase tracking-widest text-rbc-red font-bold">INFO LOKASI</div>
+          
+          <div class="space-y-4 font-mono text-xs">
+            <div class="flex justify-between border-b border-rbc-cream-light/15 pb-2">
+              <span class="text-rbc-cream-light/80">Ijen (Malang)</span>
+              <span class="text-rbc-concrete">08.00 – 21.00</span>
+            </div>
+            <div class="flex justify-between border-b border-rbc-cream-light/15 pb-2">
+              <span class="text-rbc-cream-light/80">Soehat (Malang)</span>
+              <span class="text-rbc-red font-bold">24 Jam</span>
+            </div>
+            <div class="flex justify-between border-b border-rbc-cream-light/15 pb-2">
+              <span class="text-rbc-cream-light/80">Kediri</span>
+              <span class="text-rbc-concrete">08.00 – 23.00</span>
+            </div>
+            <div class="flex justify-between border-b border-rbc-cream-light/15 pb-2">
+              <span class="text-rbc-cream-light/80">Tulungagung</span>
+              <span class="text-rbc-concrete">08.00 – 23.00</span>
+            </div>
+          </div>
+          
+          <div class="pt-2 font-mono text-xs">
+            <span class="text-rbc-concrete">WHATSAPP:</span>
+            <a href="https://wa.me/6287741848928" target="_blank" class="text-rbc-cream-light hover:text-rbc-red font-bold block mt-1">
+              0877-4184-8928
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bottom Strip -->
+      <div class="border-t border-rbc-cream-light/15 pt-8 flex flex-col md:flex-row items-center justify-between text-[11px] font-mono text-rbc-concrete">
+        <div>
+          © 2024 Robucca · Rbc Group · Malang, Jawa Timur.
+        </div>
+        <div class="mt-4 md:mt-0 flex space-x-6">
+          <span>RAW CONCRETE, EXPOSED STRUCTURE, SOULS OF WARMTH</span>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- Main JS file -->
+  <script src="main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="id" class="h-full scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu Makanan & Kopi — Robucca</title>
+  <meta name="description" content="Eksplorasi daftar menu lengkap Robucca Coffee Shop: Kopi Susu signature, classic Tiramisu, Katsu Curry Ramen, dan bento box.">
+
+  <!-- Shared CSS Link -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Tailwind CSS & Brand Configuration -->
+  <script>
+    window.tailwind = {
+      config: {
+        theme: {
+          extend: {
+            colors: {
+              'rbc-green':   '#1C3A2A',
+              'rbc-green-d': '#0F2218',
+              'rbc-green-l': '#2A5040',
+              'rbc-cream':   'rgba(15, 34, 24, 0.95)',
+              'rbc-cream-light': '#F5EDD6',
+              'rbc-cream-d': '#E0D4BB',
+              'rbc-red':     '#CC2200',
+              'rbc-brown':   '#2C1A0E',
+              'rbc-concrete':'#8C8880',
+              'rbc-black':   '#0A0A0A',
+            },
+            fontFamily: {
+              'display': ['"Bebas Neue"', 'sans-serif'],
+              'mono':    ['"DM Mono"', 'monospace'],
+              'serif':   ['"Fraunces"', 'serif'],
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&display=swap" rel="stylesheet">
+
+  <!-- Alpine.js -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <!-- AOS (Animate on Scroll) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+</head>
+<body class="bg-rbc-cream text-rbc-cream-light font-mono overflow-x-hidden selection:bg-rbc-red selection:text-rbc-cream-light" x-data="mobileNav">
+
+  <!-- NAVBAR -->
+  <nav id="navbar" class="fixed top-0 left-0 w-full h-16 bg-rbc-green border-b border-rbc-cream-light/15 z-50 transition-all duration-300 flex items-center justify-between px-6 md:px-12">
+    <!-- Left: Wordmark -->
+    <a href="index.html" class="flex items-baseline space-x-1 group">
+      <span class="font-serif italic font-black text-2xl md:text-3xl text-rbc-cream-light tracking-tight transition-transform duration-300 group-hover:scale-105">Robucca</span>
+      <span class="font-mono text-[9px] uppercase tracking-widest text-rbc-concrete">by Rbc.</span>
+    </a>
+
+    <!-- Center: Desktop Menu -->
+    <div class="hidden md:flex items-center space-x-8">
+      <a href="index.html" class="nav-link font-mono text-xs uppercase tracking-widest text-rbc-cream-light hover:text-rbc-cream-light-d py-2">HOME</a>
+      <a href="menu.html" class="nav-link active font-mono text-xs uppercase tracking-widest text-rbc-cream-light hover:text-rbc-cream-light-d py-2">MENU</a>
+      <a href="about.html" class="nav-link font-mono text-xs uppercase tracking-widest text-rbc-cream-light hover:text-rbc-cream-light-d py-2">TENTANG</a>
+      <a href="contact.html" class="nav-link font-mono text-xs uppercase tracking-widest text-rbc-cream-light hover:text-rbc-cream-light-d py-2">KONTAK</a>
+    </div>
+
+    <!-- Right: Desktop WA CTA & Hamburger -->
+    <div class="flex items-center space-x-4">
+      <a href="https://instagram.com/robucca.id" target="_blank" class="hidden sm:inline-block border border-rbc-cream-light px-4 py-2 font-mono text-[11px] uppercase tracking-widest text-rbc-cream-light hover:bg-rbc-red hover:border-rbc-red transition-all duration-300 rounded-none">
+        ORDER NOW
+      </a>
+      
+      <!-- Mobile Hamburger Button -->
+      <button @click="toggle()" class="md:hidden flex flex-col justify-between w-6 h-4 group focus:outline-none" aria-label="Toggle Menu">
+        <span class="w-full h-0.5 bg-rbc-cream transition-transform duration-300" :class="isOpen ? 'rotate-45 translate-y-[7px]' : ''"></span>
+        <span class="w-full h-0.5 bg-rbc-cream transition-opacity duration-300" :class="isOpen ? 'opacity-0' : ''"></span>
+        <span class="w-full h-0.5 bg-rbc-cream transition-transform duration-300" :class="isOpen ? '-rotate-45 -translate-y-[7px]' : ''"></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu Drawer (Overlay) -->
+  <div x-show="isOpen" 
+       x-cloak 
+       x-transition:enter="transition ease-out duration-300"
+       x-transition:enter-start="opacity-0 translate-y-4"
+       x-transition:enter-end="opacity-100 translate-y-0"
+       x-transition:leave="transition ease-in duration-200"
+       x-transition:leave-start="opacity-100 translate-y-0"
+       x-transition:leave-end="opacity-0 translate-y-4"
+       class="fixed inset-0 bg-rbc-green-d text-rbc-cream-light z-40 flex flex-col justify-between p-8 pt-24 texture-concrete">
+    
+    <div class="absolute inset-0 border-r border-l border-rbc-cream-light/5 pointer-events-none mx-8"></div>
+    
+    <div class="flex flex-col space-y-6 relative z-10">
+      <div class="font-mono text-xs text-rbc-red tracking-widest uppercase mb-2">NAVIGASI</div>
+      <a href="index.html" @click="close()" class="font-display text-5xl uppercase tracking-wider hover:text-rbc-red transition-colors">HOME</a>
+      <a href="menu.html" @click="close()" class="font-display text-5xl uppercase tracking-wider hover:text-rbc-red transition-colors active-link-highlight">MENU</a>
+      <a href="about.html" @click="close()" class="font-display text-5xl uppercase tracking-wider hover:text-rbc-red transition-colors">TENTANG</a>
+      <a href="contact.html" @click="close()" class="font-display text-5xl uppercase tracking-wider hover:text-rbc-red transition-colors">KONTAK</a>
+    </div>
+
+    <div class="relative z-10 flex flex-col space-y-4 border-t border-rbc-cream-light/10 pt-6">
+      <div>
+        <p class="font-serif italic text-lg text-rbc-cream-light">"Rough Spaces, Warm Moments"</p>
+        <p class="text-[10px] font-mono uppercase text-rbc-concrete tracking-widest mt-1">Part of Rbc Group</p>
+      </div>
+      <div class="flex justify-between items-center text-xs">
+        <a href="https://instagram.com/robucca.id" target="_blank" class="hover:text-rbc-red transition-colors">@robucca.id</a>
+        <a href="https://wa.me/6287741848928" target="_blank" class="text-rbc-red font-bold hover:underline">WA: 0877-4184-8928</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO SECTION -->
+  <section class="h-[280px] bg-rbc-green-d text-rbc-cream-light pt-16 flex items-center justify-between px-6 md:px-12 relative overflow-hidden texture-concrete" style="background-image: url('img/menu-banner.webp'); background-size: cover; background-position: center;">
+    <!-- Dark overlay to ensure text contrast -->
+    <div class="absolute inset-0 bg-rbc-green-d/75 z-0"></div>
+
+    <div class="relative z-10 flex flex-col md:flex-row md:items-end md:justify-between w-full">
+      <div>
+        <h1 class="font-display text-[55px] md:text-[80px] leading-[0.9] uppercase tracking-tight text-rbc-cream-light mb-2">
+          MENU<br>ROBUCCA
+        </h1>
+        <p class="font-mono text-xs md:text-sm text-rbc-cream-light/70">Semua yang kami buat, ada di sini.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FILTER & CONTENT SECTION -->
+  <section x-data="menuFilter" 
+           x-init="const urlParams = new URLSearchParams(window.location.search); const cat = urlParams.get('cat'); if (cat) activeCategory = cat.toUpperCase();"
+           class="bg-rbc-cream py-12 px-6 md:px-12 border-t border-b border-rbc-cream-light relative min-h-screen">
+    
+    <div class="max-w-6xl mx-auto">
+      
+      <!-- Sticky Filter Bar -->
+      <div class="sticky top-16 bg-rbc-cream/95 backdrop-blur-sm z-30 py-4 border-b border-rbc-cream-light mb-12 flex flex-wrap gap-2 justify-center sm:justify-start">
+        <button @click="setCategory('ALL')" 
+                :class="activeCategory === 'ALL' ? 'bg-rbc-green text-rbc-cream-light' : 'border border-rbc-cream-light bg-transparent text-rbc-cream-light hover:bg-rbc-concrete/20'" 
+                class="font-mono text-xs font-bold uppercase tracking-widest px-6 py-3 transition-colors duration-200 rounded-none">
+          ALL
+        </button>
+        <button @click="setCategory('BEVERAGE')" 
+                :class="activeCategory === 'BEVERAGE' ? 'bg-rbc-green text-rbc-cream-light' : 'border border-rbc-cream-light bg-transparent text-rbc-cream-light hover:bg-rbc-concrete/20'" 
+                class="font-mono text-xs font-bold uppercase tracking-widest px-6 py-3 transition-colors duration-200 rounded-none">
+          BEVERAGE
+        </button>
+        <button @click="setCategory('SNACKS')" 
+                :class="activeCategory === 'SNACKS' ? 'bg-rbc-green text-rbc-cream-light' : 'border border-rbc-cream-light bg-transparent text-rbc-cream-light hover:bg-rbc-concrete/20'" 
+                class="font-mono text-xs font-bold uppercase tracking-widest px-6 py-3 transition-colors duration-200 rounded-none">
+          SNACKS
+        </button>
+        <button @click="setCategory('FOODS')" 
+                :class="activeCategory === 'FOODS' ? 'bg-rbc-green text-rbc-cream-light' : 'border border-rbc-cream-light bg-transparent text-rbc-cream-light hover:bg-rbc-concrete/20'" 
+                class="font-mono text-xs font-bold uppercase tracking-widest px-6 py-3 transition-colors duration-200 rounded-none">
+          FOODS
+        </button>
+      </div>
+
+      <!-- 1. BEVERAGES BLOCK -->
+      <div x-show="isMatch('BEVERAGE')" x-transition:enter="transition ease-out duration-300" class="space-y-12 mb-20">
+        <div class="border-b-[4px] border-rbc-cream-light pb-2">
+          <h2 class="font-display text-4xl md:text-5xl uppercase tracking-wider">BEVERAGES</h2>
+        </div>
+
+        <!-- 1.1 Essentials & Signature -->
+        <div class="border-l-[3px] border-rbc-red pl-6 py-2">
+          <h3 class="font-display text-2xl uppercase tracking-wide text-rbc-red mb-6">Essentials & Signature</h3>
+          
+          <div class="space-y-4">
+            <!-- Item 1 -->
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <div class="flex items-baseline space-x-2 min-w-0">
+                <span class="font-mono text-sm font-bold truncate">Kopi Susu Essentials</span>
+                <span class="font-mono text-[9px] text-rbc-red group-hover:text-rbc-cream-light font-bold tracking-widest uppercase">SIGNATURE</span>
+              </div>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold whitespace-nowrap">Rp 22.000</span>
+            </div>
+            <!-- Item 2 -->
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <div class="flex items-baseline space-x-2 min-w-0">
+                <span class="font-mono text-sm font-bold truncate">Kopi Kelapa</span>
+                <span class="font-mono text-[9px] text-rbc-red group-hover:text-rbc-cream-light font-bold tracking-widest uppercase">SIGNATURE</span>
+              </div>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold whitespace-nowrap">Rp 24.000</span>
+            </div>
+            <!-- Item 3 -->
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <div class="flex items-baseline space-x-2 min-w-0">
+                <span class="font-mono text-sm font-bold truncate">Kinoko Choco Hazel</span>
+              </div>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold whitespace-nowrap">Rp 27.000</span>
+            </div>
+            <!-- Item 4 -->
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <div class="flex items-baseline space-x-2 min-w-0">
+                <span class="font-mono text-sm font-bold truncate">Coffee Misu Latte</span>
+              </div>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold whitespace-nowrap">Rp 35.000</span>
+            </div>
+            <!-- Item 5 -->
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <div class="flex items-baseline space-x-2 min-w-0">
+                <span class="font-mono text-sm font-bold truncate">Double Cream Ceremonial Matcha</span>
+              </div>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold whitespace-nowrap">Rp 27.000</span>
+            </div>
+            <!-- Item 6 -->
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <div class="flex items-baseline space-x-2 min-w-0">
+                <span class="font-mono text-sm font-bold truncate">Sea Salt Butterscotch Latte</span>
+              </div>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold whitespace-nowrap">Rp 32.000</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 1.2 Coffee Based -->
+        <div>
+          <h3 class="font-display text-2xl uppercase tracking-wide text-rbc-concrete border-b border-rbc-concrete/30 pb-2 mb-6">Coffee Based</h3>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Caffe Latte (Ice/Hot)</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 19.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Cappucino (Ice/Hot)</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 20.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Americano (Ice/Hot)</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 16.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Mochaccino (Ice)</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 20.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Mochaccino (Hot)</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 18.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Brown Sugar Coffee Regal</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 28.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Brown Coffee Cream Brulee</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 28.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Coffee Cream Caramel</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 24.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Coffee Scotch</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 22.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Coconut Shaken</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 24.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Jamocca</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 28.000</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 1.3 Milk Based -->
+        <div>
+          <h3 class="font-display text-2xl uppercase tracking-wide text-rbc-concrete border-b border-rbc-concrete/30 pb-2 mb-6">Milk Based</h3>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Green Tea Ice</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 20.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Green Tea Latte</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 18.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Matcha Berry Latte</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 28.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Chocolatte (Hot)</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 18.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Red Velvet Ice</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 20.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Red Velvet Latte</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 18.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Cocoa Ice</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 20.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Banana Peanut Butter</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 28.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Choco Mint</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 28.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Sakura</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 24.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Choco Peanut Butter</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 29.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Boba Brown Sugar Regal</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 28.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Bitter Sweet Choco</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 29.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Mix Berry Salty Cream</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 27.500</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 1.4 Tea & Soda Based -->
+        <div>
+          <h3 class="font-display text-2xl uppercase tracking-wide text-rbc-concrete border-b border-rbc-concrete/30 pb-2 mb-6">Tea & Soda Based</h3>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Mango Tea</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 18.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Honeydew Lemon Tea</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 22.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Yuzu Squash Tea</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 23.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Blackcurrant Tea</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 18.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Apple Mintea</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 18.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Orange Soda Americano</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 22.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Summer Breeze</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 22.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Strawberry Basil Bubble</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 25.000</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 2. SNACKS BLOCK -->
+      <div x-show="isMatch('SNACKS')" x-transition:enter="transition ease-out duration-300" class="space-y-12 mb-20" x-cloak>
+        <div class="border-b-[4px] border-rbc-cream-light pb-2">
+          <h2 class="font-display text-4xl md:text-5xl uppercase tracking-wider">SNACKS</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
+          <!-- Item with special badge -->
+          <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200 md:col-span-2 border-l-2 border-rbc-red pl-2 md:pl-4">
+            <div class="flex items-baseline space-x-2 min-w-0">
+              <span class="font-mono text-sm font-bold truncate">Cookies Misu by Rbc.</span>
+              <span class="font-mono text-[9px] text-rbc-red group-hover:text-rbc-cream-light font-bold tracking-widest uppercase">ROBUCCA SPECIAL</span>
+            </div>
+            <span class="menu-dot-leader group-hover:opacity-20"></span>
+            <span class="font-mono text-sm font-bold whitespace-nowrap">Rp 28.000</span>
+          </div>
+
+          <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+            <span class="font-mono text-sm truncate">Classic Tiramisu</span>
+            <span class="menu-dot-leader group-hover:opacity-20"></span>
+            <span class="font-mono text-sm font-bold">Rp 40.000</span>
+          </div>
+          <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+            <span class="font-mono text-sm truncate">Matcha Misu</span>
+            <span class="menu-dot-leader group-hover:opacity-20"></span>
+            <span class="font-mono text-sm font-bold">Rp 40.000</span>
+          </div>
+          <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+            <span class="font-mono text-sm truncate">Truffle Fries</span>
+            <span class="menu-dot-leader group-hover:opacity-20"></span>
+            <span class="font-mono text-sm font-bold">Rp 25.000</span>
+          </div>
+          <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+            <span class="font-mono text-sm truncate">Shrimp Sando</span>
+            <span class="menu-dot-leader group-hover:opacity-20"></span>
+            <span class="font-mono text-sm font-bold">Rp 25.000</span>
+          </div>
+          <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+            <span class="font-mono text-sm truncate">Thai Pandan Toast</span>
+            <span class="menu-dot-leader group-hover:opacity-20"></span>
+            <span class="font-mono text-sm font-bold">Rp 18.000</span>
+          </div>
+          <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+            <span class="font-mono text-sm truncate">French Fries</span>
+            <span class="menu-dot-leader group-hover:opacity-20"></span>
+            <span class="font-mono text-sm font-bold">Rp 18.000</span>
+          </div>
+          <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+            <span class="font-mono text-sm truncate">Thai Caramel Toast</span>
+            <span class="menu-dot-leader group-hover:opacity-20"></span>
+            <span class="font-mono text-sm font-bold">Rp 18.000</span>
+          </div>
+          <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+            <span class="font-mono text-sm truncate">Potato Wedges</span>
+            <span class="menu-dot-leader group-hover:opacity-20"></span>
+            <span class="font-mono text-sm font-bold">Rp 18.000</span>
+          </div>
+          <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+            <span class="font-mono text-sm truncate">Chicken Katsu Sando</span>
+            <span class="menu-dot-leader group-hover:opacity-20"></span>
+            <span class="font-mono text-sm font-bold">Rp 28.000</span>
+          </div>
+          <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+            <span class="font-mono text-sm truncate">Egg Sando</span>
+            <span class="menu-dot-leader group-hover:opacity-20"></span>
+            <span class="font-mono text-sm font-bold">Rp 26.000</span>
+          </div>
+          <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+            <span class="font-mono text-sm truncate">Aromatic Garlic Fries</span>
+            <span class="menu-dot-leader group-hover:opacity-20"></span>
+            <span class="font-mono text-sm font-bold">Rp 22.000</span>
+          </div>
+          <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+            <span class="font-mono text-sm truncate">Takoyaki</span>
+            <span class="menu-dot-leader group-hover:opacity-20"></span>
+            <span class="font-mono text-sm font-bold">Rp 26.000</span>
+          </div>
+          <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+            <span class="font-mono text-sm truncate">Aburage Chicken Roll</span>
+            <span class="menu-dot-leader group-hover:opacity-20"></span>
+            <span class="font-mono text-sm font-bold">Rp 24.000</span>
+          </div>
+          <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+            <span class="font-mono text-sm truncate">Fries Gravy Moza</span>
+            <span class="menu-dot-leader group-hover:opacity-20"></span>
+            <span class="font-mono text-sm font-bold">Rp 28.000</span>
+          </div>
+          <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+            <span class="font-mono text-sm truncate">Chicken Kaarage</span>
+            <span class="menu-dot-leader group-hover:opacity-20"></span>
+            <span class="font-mono text-sm font-bold">Rp 20.000</span>
+          </div>
+          <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+            <span class="font-mono text-sm truncate">Salt Edamame</span>
+            <span class="menu-dot-leader group-hover:opacity-20"></span>
+            <span class="font-mono text-sm font-bold">Rp 17.000</span>
+          </div>
+          <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+            <span class="font-mono text-sm truncate">Garlic Edamame Spicy</span>
+            <span class="menu-dot-leader group-hover:opacity-20"></span>
+            <span class="font-mono text-sm font-bold">Rp 22.000</span>
+          </div>
+          <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+            <span class="font-mono text-sm truncate">Red Velvet Croissant</span>
+            <span class="menu-dot-leader group-hover:opacity-20"></span>
+            <span class="font-mono text-sm font-bold">Rp 25.000</span>
+          </div>
+          <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+            <span class="font-mono text-sm truncate">Almond Croissant</span>
+            <span class="menu-dot-leader group-hover:opacity-20"></span>
+            <span class="font-mono text-sm font-bold">Rp 30.000</span>
+          </div>
+          <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+            <span class="font-mono text-sm truncate">Matcha Croissant</span>
+            <span class="menu-dot-leader group-hover:opacity-20"></span>
+            <span class="font-mono text-sm font-bold">Rp 25.000</span>
+          </div>
+          <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+            <span class="font-mono text-sm truncate">Croissant Cheese</span>
+            <span class="menu-dot-leader group-hover:opacity-20"></span>
+            <span class="font-mono text-sm font-bold">Rp 22.000</span>
+          </div>
+          <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+            <span class="font-mono text-sm truncate">Croissant Plain</span>
+            <span class="menu-dot-leader group-hover:opacity-20"></span>
+            <span class="font-mono text-sm font-bold">Rp 13.500</span>
+          </div>
+          <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+            <span class="font-mono text-sm truncate">Crookies Chocolate</span>
+            <span class="menu-dot-leader group-hover:opacity-20"></span>
+            <span class="font-mono text-sm font-bold">Rp 28.000</span>
+          </div>
+          <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+            <span class="font-mono text-sm truncate">Double Chocolate Croissant</span>
+            <span class="menu-dot-leader group-hover:opacity-20"></span>
+            <span class="font-mono text-sm font-bold">Rp 25.000</span>
+          </div>
+          <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+            <span class="font-mono text-sm truncate">Pain Au Chocolate</span>
+            <span class="menu-dot-leader group-hover:opacity-20"></span>
+            <span class="font-mono text-sm font-bold">Rp 18.000</span>
+          </div>
+          <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+            <span class="font-mono text-sm truncate">Croissant Piscok</span>
+            <span class="menu-dot-leader group-hover:opacity-20"></span>
+            <span class="font-mono text-sm font-bold">Rp 28.000</span>
+          </div>
+          <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+            <span class="font-mono text-sm truncate">New York Cheesecake</span>
+            <span class="menu-dot-leader group-hover:opacity-20"></span>
+            <span class="font-mono text-sm font-bold">Rp 29.000</span>
+          </div>
+          <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+            <span class="font-mono text-sm truncate">Cheesecake Biscoff</span>
+            <span class="menu-dot-leader group-hover:opacity-20"></span>
+            <span class="font-mono text-sm font-bold">Rp 30.000</span>
+          </div>
+          <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+            <span class="font-mono text-sm truncate">Cookies Matcha</span>
+            <span class="menu-dot-leader group-hover:opacity-20"></span>
+            <span class="font-mono text-sm font-bold">Rp 18.000</span>
+          </div>
+          <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+            <span class="font-mono text-sm truncate">Cookies Chocolate</span>
+            <span class="menu-dot-leader group-hover:opacity-20"></span>
+            <span class="font-mono text-sm font-bold">Rp 18.000</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. FOODS BLOCK -->
+      <div x-show="isMatch('FOODS')" x-transition:enter="transition ease-out duration-300" class="space-y-12 mb-20" x-cloak>
+        <div class="border-b-[4px] border-rbc-cream-light pb-2">
+          <h2 class="font-display text-4xl md:text-5xl uppercase tracking-wider">FOODS</h2>
+        </div>
+
+        <!-- 3.1 Full Breakfast & Salad -->
+        <div>
+          <h3 class="font-display text-2xl uppercase tracking-wide text-rbc-concrete border-b border-rbc-concrete/30 pb-2 mb-6">Full Breakfast & Salad</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Sourdough Full Breakfast</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 38.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">French Full Breakfast</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 40.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Sesame Dressing Japanese Salad</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 35.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">BLT Sourdough Sandwich</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 37.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Spicy Oriental Sourdough Sandwich</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 37.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Ham & Cheese Italian Salad</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 35.000</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3.2 Ramen -->
+        <div class="border-l-[3px] border-rbc-red pl-6 py-2">
+          <h3 class="font-display text-2xl uppercase tracking-wide text-rbc-red mb-6">Ramen Selection</h3>
+          
+          <div class="space-y-4">
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm font-bold truncate">Dry Yaki Ramen</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold whitespace-nowrap">Rp 36.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm font-bold truncate">Tantan Creamy Ramen</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold whitespace-nowrap">Rp 38.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm font-bold truncate">Sambel Matah Kaarage Ramen</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold whitespace-nowrap">Rp 33.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm font-bold truncate">Spicy Chicken Ramen</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold whitespace-nowrap">Rp 35.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm font-bold truncate">Katsu Curry Ramen</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold whitespace-nowrap">Rp 33.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm font-bold truncate">Shoyu Ramen</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold whitespace-nowrap">Rp 33.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm font-bold truncate">Miso Ramen Katsu Chicken</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold whitespace-nowrap">Rp 37.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm font-bold truncate">Tori Paitan Ramen</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold whitespace-nowrap">Rp 35.000</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3.3 Bento & Don -->
+        <div>
+          <h3 class="font-display text-2xl uppercase tracking-wide text-rbc-concrete border-b border-rbc-concrete/30 pb-2 mb-6">Bento & Don</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Butter Soya Soseji Bento</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 26.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Chicken Karaage Sambal Matah</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 28.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Chicken Karaage Mozzato</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 28.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Spicy Soseji Bento</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 28.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Chicken Karaage Spicy Cheese Bento</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 28.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Chicken Kaarage Butter Soya Bento</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 28.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Go Chun Jang Fire Chicken</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 30.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Kaarage Egg Mayo Don</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 30.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Chicken Katsu Curry</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 36.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Chicken Katsudon</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 29.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Gyu Don</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 38.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Gyu Tan Don</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 38.000</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3.4 Pasta -->
+        <div>
+          <h3 class="font-display text-2xl uppercase tracking-wide text-rbc-concrete border-b border-rbc-concrete/30 pb-2 mb-6">Pasta</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Pasta Oglio Olio</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 28.000</span>
+            </div>
+            <div class="flex items-center justify-between py-2 group hover:bg-rbc-green hover:text-rbc-cream-light hover:px-3 transition-all duration-200">
+              <span class="font-mono text-sm truncate">Cheesy Pasta</span>
+              <span class="menu-dot-leader group-hover:opacity-20"></span>
+              <span class="font-mono text-sm font-bold">Rp 29.000</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- MENU FOOTER CTA -->
+  <section class="py-16 px-6 md:px-12 bg-rbc-green text-rbc-cream-light text-center relative texture-concrete">
+    <div class="max-w-3xl mx-auto relative z-10">
+      <h2 class="font-display text-4xl sm:text-5xl uppercase tracking-wider mb-4">Mau order langsung?</h2>
+      <p class="font-mono text-xs sm:text-sm text-rbc-cream-light/70 mb-8 max-w-md mx-auto">
+        Pesan menu favoritmu langsung melalui DM Instagram kami. Cepat, praktis, dan tanpa ribet.
+      </p>
+      <a href="https://instagram.com/robucca.id" target="_blank" class="btn-brutalist inline-block bg-rbc-cream text-rbc-green font-mono text-xs uppercase tracking-widest font-extrabold px-8 py-4 rounded-none hover:bg-rbc-red hover:text-rbc-cream-light hover:border-rbc-red transition-all shadow-md">
+        ORDER NOW
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-rbc-green-d text-rbc-cream-light pt-16 pb-8 border-t-[4px] border-rbc-red relative texture-concrete">
+    <div class="absolute inset-y-0 left-12 border-l border-rbc-cream-light/5 pointer-events-none"></div>
+    <div class="absolute inset-y-0 right-12 border-r border-rbc-cream-light/5 pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 pb-12">
+        
+        <!-- Left: Logo & description -->
+        <div class="lg:col-span-5 space-y-6">
+          <a href="index.html" class="flex items-baseline space-x-1">
+            <span class="font-serif italic font-black text-3xl text-rbc-cream-light tracking-tight">Robucca</span>
+            <span class="font-mono text-[10px] uppercase tracking-widest text-rbc-concrete">by Rbc.</span>
+          </a>
+          <p class="font-serif italic text-lg text-rbc-cream-light/80 max-w-sm leading-relaxed">
+            "Rough Spaces, Warm Moments"
+          </p>
+          <div class="text-[11px] font-mono uppercase tracking-widest text-rbc-concrete space-y-1">
+            <p>Part of Rbc Group</p>
+            <p>Brutalist F&B Architecture // Malang</p>
+          </div>
+        </div>
+
+        <!-- Center: Links & Socials -->
+        <div class="lg:col-span-3 space-y-6">
+          <div class="font-mono text-xs uppercase tracking-widest text-rbc-red font-bold">PINTASAN</div>
+          <ul class="space-y-3 font-mono text-xs text-rbc-cream-light/80">
+            <li><a href="index.html" class="hover:text-rbc-red hover:underline transition-all">HOME</a></li>
+            <li><a href="menu.html" class="hover:text-rbc-red hover:underline transition-all">MENU MAKANAN & KOPI</a></li>
+            <li><a href="about.html" class="hover:text-rbc-red hover:underline transition-all">TENTANG KAMI</a></li>
+            <li><a href="contact.html" class="hover:text-rbc-red hover:underline transition-all">KONTAK & LOKASI</a></li>
+          </ul>
+          
+          <div class="pt-2">
+            <div class="font-mono text-[11px] uppercase tracking-widest text-rbc-concrete mb-2">SOSIAL MEDIA</div>
+            <a href="https://instagram.com/robucca.id" target="_blank" class="font-mono text-xs text-rbc-cream-light hover:text-rbc-red transition-all">
+              @robucca.id
+            </a>
+          </div>
+        </div>
+
+        <!-- Right: Contacts & Branches -->
+        <div class="lg:col-span-4 space-y-6">
+          <div class="font-mono text-xs uppercase tracking-widest text-rbc-red font-bold">INFO LOKASI</div>
+          
+          <div class="space-y-4 font-mono text-xs">
+            <div class="flex justify-between border-b border-rbc-cream-light/15 pb-2">
+              <span class="text-rbc-cream-light/80">Ijen (Malang)</span>
+              <span class="text-rbc-concrete">08.00 – 21.00</span>
+            </div>
+            <div class="flex justify-between border-b border-rbc-cream-light/15 pb-2">
+              <span class="text-rbc-cream-light/80">Soehat (Malang)</span>
+              <span class="text-rbc-red font-bold">24 Jam</span>
+            </div>
+            <div class="flex justify-between border-b border-rbc-cream-light/15 pb-2">
+              <span class="text-rbc-cream-light/80">Kediri</span>
+              <span class="text-rbc-concrete">08.00 – 23.00</span>
+            </div>
+            <div class="flex justify-between border-b border-rbc-cream-light/15 pb-2">
+              <span class="text-rbc-cream-light/80">Tulungagung</span>
+              <span class="text-rbc-concrete">08.00 – 23.00</span>
+            </div>
+          </div>
+          
+          <div class="pt-2 font-mono text-xs">
+            <span class="text-rbc-concrete">WHATSAPP:</span>
+            <a href="https://wa.me/6287741848928" target="_blank" class="text-rbc-cream-light hover:text-rbc-red font-bold block mt-1">
+              0877-4184-8928
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bottom Strip -->
+      <div class="border-t border-rbc-cream-light/15 pt-8 flex flex-col md:flex-row items-center justify-between text-[11px] font-mono text-rbc-concrete">
+        <div>
+          © 2024 Robucca · Rbc Group · Malang, Jawa Timur.
+        </div>
+        <div class="mt-4 md:mt-0 flex space-x-6">
+          <span>RAW CONCRETE, EXPOSED STRUCTURE, SOULS OF WARMTH</span>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- Main JS file -->
+  <script src="main.js"></script>
+
+</body>
+</html>
