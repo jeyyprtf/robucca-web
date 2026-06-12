@@ -6,14 +6,18 @@
 /* Reset & Smooth Scroll */
 html {
   scroll-behavior: smooth;
-  background-color: rgba(15, 34, 24, 0.95); /* Default to rbc-cream */
-  color: #F5EDD6; /* Default to rbc-cream-light */
+  background-color: rgba(15, 34, 24, 0.95);
+  /* Default to rbc-cream */
+  color: #F5EDD6;
+  /* Default to rbc-cream-light */
 }
 
 /* Custom Selection Style */
 ::selection {
-  background-color: #CC2200; /* rbc-red */
-  color: rgba(15, 34, 24, 0.95); /* rbc-cream */
+  background-color: #CC2200;
+  /* rbc-red */
+  color: rgba(15, 34, 24, 0.95);
+  /* rbc-cream */
 }
 
 /* Custom Scrollbar for modern browsers */
@@ -21,15 +25,22 @@ html {
   width: 8px;
   height: 8px;
 }
+
 ::-webkit-scrollbar-track {
-  background: rgba(15, 34, 24, 0.95); /* rbc-green-d */
+  background: rgba(15, 34, 24, 0.95);
+  /* rbc-green-d */
 }
+
 ::-webkit-scrollbar-thumb {
-  background: #1C3A2A; /* rbc-green */
-  border: 1px solid #8C8880; /* rbc-concrete */
+  background: #1C3A2A;
+  /* rbc-green */
+  border: 1px solid #8C8880;
+  /* rbc-concrete */
 }
+
 ::-webkit-scrollbar-thumb:hover {
-  background: #CC2200; /* rbc-red */
+  background: #CC2200;
+  /* rbc-red */
 }
 
 /* ---------------------------------------------
@@ -40,6 +51,7 @@ html {
 .texture-concrete {
   position: relative;
 }
+
 .texture-concrete::before {
   content: '';
   position: absolute;
@@ -50,7 +62,7 @@ html {
 }
 
 /* All content inside texture-concrete needs z-index: 2 */
-.texture-concrete > * {
+.texture-concrete>* {
   position: relative;
   z-index: 2;
 }
@@ -70,6 +82,7 @@ html {
   filter: grayscale(80%) contrast(1.1) invert(0.05);
   transition: filter 0.5s ease;
 }
+
 .map-grayscale:hover iframe {
   filter: grayscale(30%) contrast(1.0);
 }
@@ -78,6 +91,7 @@ html {
 .nav-link {
   position: relative;
 }
+
 .nav-link::after {
   content: '';
   position: absolute;
@@ -85,12 +99,15 @@ html {
   left: 0;
   width: 0;
   height: 2px;
-  background-color: #CC2200; /* rbc-red */
+  background-color: #CC2200;
+  /* rbc-red */
   transition: width 0.3s ease;
 }
+
 .nav-link.active::after {
   width: 100%;
 }
+
 .nav-link:hover::after {
   width: 100%;
 }
@@ -100,10 +117,13 @@ html {
   position: relative;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
+
 .btn-brutalist:hover {
   transform: translate(-2px, -2px);
-  box-shadow: 4px 4px 0px 0px #CC2200; /* offset red shadow */
+  box-shadow: 4px 4px 0px 0px #CC2200;
+  /* offset red shadow */
 }
+
 .btn-brutalist:active {
   transform: translate(0px, 0px);
   box-shadow: 0px 0px 0px 0px #CC2200;
@@ -114,6 +134,7 @@ html {
   border: 1px solid #F5EDD6;
   transition: all 0.3s ease;
 }
+
 .card-brutalist:hover {
   box-shadow: 6px 6px 0px 0px #F5EDD6;
   transform: translate(-3px, -3px);
@@ -133,12 +154,15 @@ html {
   opacity: 0;
   transform: scale(0.95);
 }
+
 .mobile-menu-enter-active {
   transition: all 0.3s ease-out;
 }
+
 .mobile-menu-leave-active {
   transition: all 0.2s ease-in;
 }
+
 .mobile-menu-leave-to {
   opacity: 0;
   transform: scale(0.95);
@@ -146,31 +170,64 @@ html {
 
 /* Fallback Header & Link Colors (For Offline/Blocked CDN Environments) */
 #navbar {
-  background-color: #1C3A2A; /* Fallback rbc-green */
+  background-color: #1C3A2A;
+  /* Fallback rbc-green */
 }
+
 #navbar.bg-rbc-green-d\/95 {
   background-color: rgba(15, 34, 24, 0.95) !important;
 }
+
 #navbar a {
-  color: #F5EDD6; /* Fallback rbc-cream */
+  color: #F5EDD6;
+  /* Fallback rbc-cream */
 }
+
 #navbar a.active {
-  border-bottom: 2px solid #CC2200; /* Fallback rbc-red underline */
+  border-bottom: 2px solid #CC2200;
+  /* Fallback rbc-red underline */
 }
+
 #navbar a:hover {
-  color: #E0D4BB; /* Fallback rbc-cream-d */
+  color: #E0D4BB;
+  /* Fallback rbc-cream-d */
 }
+
 #navbar button span {
-  background-color: #F5EDD6; /* Fallback hamburger lines color */
+  background-color: #F5EDD6;
+  /* Fallback hamburger lines color */
 }
 
 /* Fallback Hero Text Colors (For Offline/Blocked CDN Environments) */
 .hero-content h1 {
   color: #F5EDD6 !important;
 }
+
 .hero-content p {
   color: rgba(245, 237, 214, 0.85) !important;
 }
+
 .hero-content .text-rbc-red {
   color: #CC2200 !important;
+}
+
+/* Mobile Navbar Custom Semi-Transparent Background */
+@media (max-width: 767px) {
+  #navbar {
+    background-color: rgba(28, 58, 42, 0.85) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+}
+
+/* Fallback background color for bg-rbc-green-d */
+.bg-rbc-green-d {
+  background-color: #0F2218;
+}
+
+/* Mobile Menu Drawer (Overlay) Styling */
+.fixed.inset-0.bg-rbc-green-d {
+  background-color: rgba(28, 58, 42, 0.95) !important; /* Semi-transparent green background */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
